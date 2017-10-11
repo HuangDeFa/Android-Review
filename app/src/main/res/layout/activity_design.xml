@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kenzz.reviewapp.activity.DesignActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
     <android.support.design.widget.TabLayout
         android:id="@+id/design_bottom_tab"
         android:layout_width="match_parent"
@@ -21,7 +25,9 @@
         >
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/design_appbar"
+            >
             <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,23 +35,28 @@
                 app:contentScrim="@color/colorPrimary"
                 >
                 <ImageView
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/school"
-                    app:layout_collapseParallaxMultiplier="0.5"
                     app:layout_collapseMode="parallax"
                     />
-                <android.support.v7.widget.Toolbar
-                    android:fitsSystemWindows="true"
-                    android:id="@+id/design_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    app:layout_collapseMode="pin"
-                    app:navigationIcon="@android:drawable/arrow_up_float"
-                    app:title="广东工业大学"
-                    >
-                </android.support.v7.widget.Toolbar>
+                  <android.support.v7.widget.Toolbar
+                      android:id="@+id/design_toolbar"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      app:layout_collapseMode="pin"
+                      >
+                      <TextView
+                          android:id="@+id/design_toolbar_title"
+                          android:layout_width="match_parent"
+                          android:layout_height="70dp"
+                          android:paddingTop="35dp"
+                          android:paddingBottom="10dp"
+                          android:text="广东工业大学"
+                          android:textSize="16sp"
+                          android:gravity="center"
+                          />
+                  </android.support.v7.widget.Toolbar>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
         <android.support.v4.widget.NestedScrollView
@@ -69,3 +80,31 @@
         </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>
+<LinearLayout
+    android:layout_width="200dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="left"
+    android:orientation="vertical"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorAccent"
+        >
+        <com.kenzz.reviewapp.widget.CircleImageView
+            android:layout_height="70dp"
+            android:layout_width="70dp"
+            android:src="@drawable/school"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/design_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
+</android.support.v4.widget.DrawerLayout>
