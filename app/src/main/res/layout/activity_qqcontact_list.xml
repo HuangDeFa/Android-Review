@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kenzz.reviewapp.activity.QQContactListActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@drawable/qq_contact_list_headbg"
+    android:id="@+id/qqList_head"
+    >
+    <RelativeLayout
+        android:id="@+id/qqList_head_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.kenzz.reviewapp.widget.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+           android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/meizi"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:text="联系人"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginRight="10dp"
+            android:text="添加"
+            />
+    </RelativeLayout>
+</LinearLayout>
+    <ExpandableListView
+        android:id="@+id/qqList_contact_list"
+        android:groupIndicator="@null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/qqList_head"
+        >
+    </ExpandableListView>
+</RelativeLayout>

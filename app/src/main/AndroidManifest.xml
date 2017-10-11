@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".activity.DesignActivity">
         </activity>
+        <activity android:name=".activity.QQContactListActivity">
+        </activity>
     </application>
 
 </manifest>

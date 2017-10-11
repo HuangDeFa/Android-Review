@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.kenzz.reviewapp.activity.BaseActivity;
 import com.kenzz.reviewapp.activity.DesignActivity;
+import com.kenzz.reviewapp.activity.QQContactListActivity;
 import com.kenzz.reviewapp.activity.ViewLearningActivity;
 import com.kenzz.reviewapp.adapter.ComBaseAdapter;
 import com.kenzz.reviewapp.adapter.ComBaseVH;
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity {
     private void initData(){
         mList.add("View的学习和总结");
         mList.add("SupportDesign View的学习和总结");
+        mList.add("仿QQ联系人列表");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -69,6 +71,9 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case 1:
                                 startActivity(new Intent(MainActivity.this, DesignActivity.class));
+                                break;
+                            case 2:
+                                startActivity(new Intent(MainActivity.this, QQContactListActivity.class));
                                 break;
                         }
                     }
