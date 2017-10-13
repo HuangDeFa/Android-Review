@@ -6,105 +6,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kenzz.reviewapp.activity.DesignActivity">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-    <android.support.design.widget.TabLayout
-        android:id="@+id/design_bottom_tab"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        app:tabIndicatorHeight="0dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorAccent"
-        android:layout_height="50dp"/>
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/design_bottom_tab"
-        >
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/design_appbar"
-            >
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:contentScrim="@color/colorPrimary"
-                >
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/school"
-                    app:layout_collapseMode="parallax"
-                    />
-                  <android.support.v7.widget.Toolbar
-                      android:id="@+id/design_toolbar"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      app:layout_collapseMode="pin"
-                      >
-                      <TextView
-                          android:id="@+id/design_toolbar_title"
-                          android:layout_width="match_parent"
-                          android:layout_height="70dp"
-                          android:paddingTop="35dp"
-                          android:paddingBottom="10dp"
-                          android:text="广东工业大学"
-                          android:textSize="16sp"
-                          android:gravity="center"
-                          />
-                  </android.support.v7.widget.Toolbar>
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
-         <TextView
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:text="广东工业大学（Guangdong University of Technology）是一所以工学为主，工、理、经、管、文、法、艺术多科性协调发展的省属重点大学、国家“111计划[1]  ”高校、广东省“九五”和“十五”期间重点建设的10所省级211--广东省“211工程”高校和7所广东省高水平大学重点建设高校之一[2]  ，是教育部本科教学评估优秀学校，教育部“卓越工程师教育培养计划“高校。[3]
-学校共设有19个学院，4个公共课教学部，5个博士后科研流动站，5个一级学科博士学位授权点，27个二级学科博士学位授权点，20个一级学科硕士学位授权点，88个二级学科硕士学位授权点，11个学科教授评审权，3个省攀峰重点学科一级学科，7个省优势重点学科一级学科，5个省特色重点学科二级学科，有5种硕士专业学位授予权，同时具有同等学力人员申请硕士学位授予权。学校现有83个本科专业。机械、信息、材料、化工四个学科为广东省“211工程”三期重点建设学科。2012年以来，工程学科位居ESI世界排名前1%行列。[4]
-学校已引进“百人计划”特聘教授百余名和3名学院院长。其中“长江学者”5人、国家“杰青”8人、国家“千人计划”教授15人、国家“优青”5人、国家”青年千人”教授9人、教育部“新世纪优秀人才”5人、广东省“领军人才”4人、广东省“珠江学者”15人、广东省“杰青”8人等，聘有法国科学院院士1人，中国工程院院士2人，已组建并入选广东省“创新团队”4个。[4] \n
-2011年度，学校学生获得国家级奖项46项153人次，省级奖项283项506人次。[33]
-2011年首次问鼎全国大学生创新““挑战杯”金奖。
-2012年在全国大学生创业“挑战杯”中再夺1金2银；在全国大学生电子商务大赛暨全国高校“创意、创新、创业”电子商务挑战赛总决赛中获得特等奖和一等奖；在第三届中国大学生方程式汽车大赛中，广工大FSAE车队获得赛会唯一“新闻传播大奖”、“ANSYS视频传播奖”、营销报告第二名、赛车设计第八名和静态项目总分第十名的奖励；1名学生荣获第七届中国青少年科技创新奖等。学校舞蹈节目获全国大学生艺术展演一等奖等。
-2013年，学校在第十三届“挑战杯”全国大学生课外学术科技作品竞赛中摘得3项一等奖，3项二等奖，1项交叉创新奖，以总分330分排所有参赛高校第5位，捧得全国挑战杯“优胜杯”（全国仅24个）[34]  ，并获得2015年全国第十四届“挑战杯”竞赛承办权；在第四届中国大学生方程式汽车大赛中，广工大FSAE车队获得营销报告第一名、成本报告第五名、高速避障第四名、耐久赛第二名和总成绩第四名的佳绩；1名学生荣获第七届中国青少年科技创新奖等。[4]
-2015年，学校承办第十四届“挑战杯”[35]  全国大学生课外学术科技作品竞赛，并在大赛中荣获2项特等奖（全国仅38项）、2项一等奖、2项二等奖和1项累进创新奖，以团体总分420分捧得“优胜杯”，团体总分排全国高校第二、广东高校第一，创造了我校参加全国“挑战杯”竞赛的历史最好成绩。[36]
-"
-             />
-        </android.support.v4.widget.NestedScrollView>
-    </android.support.design.widget.CoordinatorLayout>
-</RelativeLayout>
-<LinearLayout
-    android:layout_width="200dp"
-    android:layout_height="match_parent"
-    android:layout_gravity="left"
-    android:orientation="vertical"
-    >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/colorAccent"
-        >
-        <com.kenzz.reviewapp.widget.CircleImageView
-            android:layout_height="70dp"
-            android:layout_width="70dp"
-            android:src="@drawable/school"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"
-            />
-    </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/design_recyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
-</LinearLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/design_bottom_tab"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/colorAccent"/>
+
+        <FrameLayout
+            android:layout_above="@id/design_bottom_tab"
+            android:id="@+id/design_page_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </FrameLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorAccent"
+            >
+
+            <com.kenzz.reviewapp.widget.CircleImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/school"
+                />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/design_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#D9D9D9">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="70dp">
+<com.kenzz.reviewapp.widget.CircleImageView
+    android:id="@+id/qqContact_user_image"
+    android:layout_centerVertical="true"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_marginLeft="10dp"
+    android:src="@drawable/qq_contact_list_headbg"
+    />
+    <TextView
+        android:id="@+id/qqContact_user_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:textSize="10sp"
+        android:textColor="@color/colorPrimary"
+        android:text="iPhoneX在线"
+        />
+    <TextView
+        android:id="@+id/qqContact_user_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/qqContact_user_image"
+        android:layout_toLeftOf="@id/qqContact_user_status"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="6dp"
+        android:textSize="10sp"
+        android:text="今天天气非常好，老板让我们搬了几车砖，晚饭能加个蛋~~~"
+        />
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.kenzz.reviewapp.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -25,6 +26,7 @@ public class CircleImageView extends ImageView {
     private BitmapShader mBitmapShader;
     private Paint mPaint;
     private int mRadius;
+
 
     public CircleImageView(Context context) {
         this(context, null);
@@ -85,6 +87,11 @@ public class CircleImageView extends ImageView {
         Bitmap bitmap = null;
         if (drawable instanceof BitmapDrawable) {
             bitmap = ((BitmapDrawable) drawable).getBitmap();
+        }
+        else {
+            drawable.setBounds(0,0,getWidth(),getHeight());
+            bitmap = Bitmap.createBitmap(getWidth(),getHeight(), Bitmap.Config.ARGB_8888);
+            drawable.draw(new Canvas(bitmap));
         }
         if (bitmap == null) {
             throw new IllegalArgumentException("Must set a bitmap");
