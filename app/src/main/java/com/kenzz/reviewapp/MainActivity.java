@@ -14,8 +14,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kenzz.reviewapp.activity.BaseActivity;
+import com.kenzz.reviewapp.activity.BroadCastReceiverActivity;
 import com.kenzz.reviewapp.activity.DesignActivity;
 import com.kenzz.reviewapp.activity.QQContactListActivity;
+import com.kenzz.reviewapp.activity.RemoteViewsActivity;
+import com.kenzz.reviewapp.activity.ServiceActivity;
 import com.kenzz.reviewapp.activity.ViewLearningActivity;
 import com.kenzz.reviewapp.adapter.ComBaseAdapter;
 import com.kenzz.reviewapp.adapter.ComBaseVH;
@@ -43,6 +46,9 @@ public class MainActivity extends BaseActivity {
         mList.add("View的学习和总结");
         mList.add("SupportDesign View的学习和总结");
         mList.add("仿QQ联系人列表");
+        mList.add("BroadcastReceiver广播接收者");
+        mList.add("Service服务");
+        mList.add("RemoteViews");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -74,6 +80,15 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case 2:
                                 startActivity(new Intent(MainActivity.this, QQContactListActivity.class));
+                                break;
+                            case 3:
+                                startActivity(new Intent(MainActivity.this, BroadCastReceiverActivity.class));
+                                break;
+                            case 4:
+                                startActivity(new Intent(MainActivity.this, ServiceActivity.class));
+                                break;
+                            case 5:
+                                startActivity(new Intent(MainActivity.this, RemoteViewsActivity.class));
                                 break;
                         }
                     }

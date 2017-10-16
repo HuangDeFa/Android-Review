@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.kenzz.reviewapp">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.kenzz.reviewapp.permission.broadcastreceiver"/>
+
+    <permission
+        android:name="com.kenzz.reviewapp.permission.broadcastreceiver"
+        android:protectionLevel="normal"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,6 +29,26 @@
         <activity android:name=".activity.DesignActivity">
         </activity>
         <activity android:name=".activity.QQContactListActivity">
+        </activity>
+        <activity android:name=".activity.BroadCastReceiverActivity">
+        </activity>
+        <activity android:name=".activity.ServiceActivity">
+        </activity>
+
+        <service android:name=".service.SimpleService"/>
+        <service
+            android:name=".service.BookService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote">
+        </service>
+        <service
+            android:name=".service.BinderPoolService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+
+        <activity android:name=".activity.RemoteViewsActivity">
         </activity>
     </application>
 

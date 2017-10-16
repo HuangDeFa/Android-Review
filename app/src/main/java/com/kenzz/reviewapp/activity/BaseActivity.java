@@ -1,5 +1,8 @@
 package com.kenzz.reviewapp.activity;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import java.util.List;
 
 /**
  * Created by ken.huang on 10/9/2017.
@@ -40,6 +45,15 @@ public abstract class BaseActivity extends AppCompatActivity {
            statusBarHeight = (int) getResources().getDimension(resId);
         }
         return statusBarHeight;
+    }
+
+    protected boolean hasIntent(Intent intent){
+        PackageManager packageManager = getApplicationContext().getPackageManager();
+        //获取最佳匹配的Activity
+        ResolveInfo resolveInfo = packageManager.resolveActivity(intent,PackageManager.MATCH_DEFAULT_ONLY);
+        //获取所有匹配的Activity,packageManager.MATCH_DEFAULT_ONLY标记着含有category为Default的Activity
+        List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, packageManager.MATCH_DEFAULT_ONLY);
+        return resolveInfo!=null;
     }
 
 
