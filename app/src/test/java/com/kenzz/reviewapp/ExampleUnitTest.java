@@ -2,7 +2,10 @@ package com.kenzz.reviewapp;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -69,5 +72,9 @@ public class ExampleUnitTest {
                System.out.println("execute runnable 1");
            }
        });
+
+       //Java中的集合
+       List<String> list=new ArrayList<>();
+       list = Collections.synchronizedList(list);
    }
 }

@@ -50,6 +50,8 @@
 
         <activity android:name=".activity.RemoteViewsActivity">
         </activity>
+        <activity android:name=".activity.DrawableActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.kenzz.reviewapp.activity.BaseActivity;
 import com.kenzz.reviewapp.activity.BroadCastReceiverActivity;
 import com.kenzz.reviewapp.activity.DesignActivity;
+import com.kenzz.reviewapp.activity.DrawableActivity;
 import com.kenzz.reviewapp.activity.QQContactListActivity;
 import com.kenzz.reviewapp.activity.RemoteViewsActivity;
 import com.kenzz.reviewapp.activity.ServiceActivity;
@@ -49,6 +50,7 @@ public class MainActivity extends BaseActivity {
         mList.add("BroadcastReceiver广播接收者");
         mList.add("Service服务");
         mList.add("RemoteViews");
+        mList.add("Drawable Demo");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -89,6 +91,9 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case 5:
                                 startActivity(new Intent(MainActivity.this, RemoteViewsActivity.class));
+                                break;
+                            case 6:
+                                startActivity(new Intent(MainActivity.this, DrawableActivity.class));
                                 break;
                         }
                     }
