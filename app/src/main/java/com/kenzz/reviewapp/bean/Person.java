@@ -13,6 +13,8 @@ public class Person implements Parcelable {
     private int age;
     private String name;
 
+    public Person(){}
+
     protected Person(Parcel in) {
         age = in.readInt();
         name = in.readString();

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,24 +24,46 @@ import com.kenzz.reviewapp.activity.ServiceActivity;
 import com.kenzz.reviewapp.activity.ViewLearningActivity;
 import com.kenzz.reviewapp.adapter.ComBaseAdapter;
 import com.kenzz.reviewapp.adapter.ComBaseVH;
+import com.kenzz.reviewapp.bean.DaggerTestComponent;
+import com.kenzz.reviewapp.bean.TestComponent;
+import com.kenzz.reviewapp.bean.TestModule;
+import com.kenzz.reviewapp.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import dagger.Lazy;
 
 public class MainActivity extends BaseActivity {
 
     @InjectView(R.id.main_my_recyclerView)
     RecyclerView mRecyclerView;
     private List<String> mList=new ArrayList<>();
+
+    //For Dagger2 依赖注入
+    @Inject
+    @Named("wnm")
+    User mUser;
+
+    @Inject
+    @Named("wnmF")
+    User mOtherUser;
+
+    @Inject
+    Lazy<User> mUserLazy;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         initData();
+        initDependencyObject();
     }
 
     private void initData(){
@@ -102,5 +125,14 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    private void initDependencyObject() {
+        TestComponent build = DaggerTestComponent.builder().
+                baseComponent(((MyApplication)getApplication()).
+                        getBaseComponent())
+                .testModule(new TestModule()).build();
+        build.inject(this);
+
+        Log.d("Dagger","The person is: "+mUser.getName()+", "+mOtherUser.getName());
+    }
 
 }
