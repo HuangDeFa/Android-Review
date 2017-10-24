@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_bottom_nav_1"
+        android:icon="@mipmap/lady"
+        android:title="妹子"
+        />
+    <item
+        android:id="@+id/home_bottom_nav_2"
+        android:icon="@mipmap/lady"
+        android:title="干货"
+        />
+    <item
+        android:id="@+id/home_bottom_nav_3"
+        android:icon="@mipmap/lady"
+        android:title="其他"
+        />
+</menu>

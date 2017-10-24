@@ -6,5 +6,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kenzz.gank.HomeActivity">
-
+<android.support.design.widget.BottomNavigationView
+    android:id="@+id/home_bottom_nav"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    app:menu="@menu/main_bottom_nav"
+    android:layout_alignParentBottom="true"
+    />
+    <LinearLayout
+        android:id="@+id/home_head_container"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:background="@drawable/title_bar"
+        android:orientation="vertical"
+        >
+      <RelativeLayout
+          android:id="@+id/home_head_bar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+       <TextView
+           android:id="@+id/home_head_title"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:gravity="center"
+           android:textColor="@android:color/white"
+           android:textSize="17sp"
+           tools:text="干货"
+           />
+      </RelativeLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_below="@id/home_head_container"
+        android:id="@+id/home_main_content"
+        android:layout_above="@id/home_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
 </RelativeLayout>

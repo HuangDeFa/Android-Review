@@ -3,10 +3,18 @@ package com.kenzz.gank.net;
 import android.content.Context;
 import android.support.annotation.StringDef;
 
+import com.kenzz.gank.bean.GankEntity;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -71,8 +79,39 @@ public class ApiManager {
         mApi = mRetrofit.create(Api.class);
     }
 
-    public void getDataByCategory(@CategoryMode String category, int pageNum) {
-        mApi.getDataByCategory(category,String.valueOf(pageNum));
+    public void getDataByCategory(@CategoryMode String category, int pageNum,IApiCallBack<GankEntity> callBack) {
+       subscribe(mApi.getDataByCategory(category,String.valueOf(pageNum)),callBack);
+    }
+
+    private <T> void  subscribe(Observable<T> observable, final IApiCallBack<T> callBack){
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<T>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull T t) {
+              if(callBack!=null){
+                  callBack.onSuccess(t);
+              }
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+              if(callBack!=null){
+                  callBack.onError(e);
+              }
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
 }

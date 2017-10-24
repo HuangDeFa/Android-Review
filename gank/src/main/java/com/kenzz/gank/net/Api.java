@@ -16,7 +16,8 @@ import retrofit2.http.Path;
  */
 
 public interface Api {
-    static final String BASEURL="https://gank.io/api/";
+    //http://gank.io/api/data/Android/10/1
+    static final String BASEURL="http://gank.io/api/";
 
     @GET("data/{category}/25/{pageNum}")
     Observable<GankEntity> getDataByCategory(@Path("category") String category, @Path("pageNum")String pageNum);
