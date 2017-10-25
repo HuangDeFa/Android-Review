@@ -20,10 +20,10 @@ public interface Api {
     static final String BASEURL="http://gank.io/api/";
 
     @GET("data/{category}/25/{pageNum}")
-    Observable<GankEntity> getDataByCategory(@Path("category") String category, @Path("pageNum")String pageNum);
+    Observable<GankEntity> getDataByCategory(@Path("category") String category, @Path("pageNum")int pageNum);
 
     @GET("day/{year}/{month}/{day}")
-    Observable<GankDailyEntity> getDailyData(@Path("year") String year, @Path("month") String month, @Path("day") String day);
+    Observable<GankDailyEntity> getDailyData(@Path("year") int year, @Path("month") int month, @Path("day") int day);
 
     @GET("search/query/{query}/category/{type}/count/20/page/{pageNum}")
     Observable<GankSearchEntity> getSearchDataByCategory(@Path("query")String query, @Path("type")String type, @Path("pageNum")int pageNum);

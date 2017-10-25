@@ -13,7 +13,7 @@ import okhttp3.Response;
 public class BaseInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request oldRequest = chain.request();
-        return chain.proceed(oldRequest);
+
+        return chain.proceed(chain.request());
     }
 }

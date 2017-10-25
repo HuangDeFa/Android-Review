@@ -80,7 +80,7 @@ public class ApiManager {
     }
 
     public void getDataByCategory(@CategoryMode String category, int pageNum,IApiCallBack<GankEntity> callBack) {
-       subscribe(mApi.getDataByCategory(category,String.valueOf(pageNum)),callBack);
+       subscribe(mApi.getDataByCategory(category,pageNum),callBack);
     }
 
     private <T> void  subscribe(Observable<T> observable, final IApiCallBack<T> callBack){
