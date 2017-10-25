@@ -5,6 +5,12 @@ import android.support.annotation.StringDef;
 
 import com.kenzz.gank.bean.GankEntity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +22,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -81,6 +88,57 @@ public class ApiManager {
 
     public void getDataByCategory(@CategoryMode String category, int pageNum,IApiCallBack<GankEntity> callBack) {
        subscribe(mApi.getDataByCategory(category,pageNum),callBack);
+    }
+
+    public void downloadFile(String url, final File file, final IApiCallBack<String> callBack){
+        mApi.downloadFile(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(@NonNull ResponseBody responseBody) {
+                        InputStream inputStream = responseBody.byteStream();
+                        try {
+                            OutputStream outputStream=new FileOutputStream(file);
+                            byte[] buffer=new byte[1024*1024];
+                            int len;
+                            while ( (len=inputStream.read(buffer))!=-1){
+                                outputStream.write(buffer,0,len);
+                            }
+                            outputStream.flush();
+                            outputStream.close();
+                            inputStream.close();
+                            if(callBack!=null){
+                                callBack.onSuccess("success!");
+                            }
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                            if(callBack!=null){
+                                callBack.onError(e);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            if(callBack!=null){
+                                callBack.onError(e);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        if(callBack!=null){
+                            callBack.onError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
     }
 
     private <T> void  subscribe(Observable<T> observable, final IApiCallBack<T> callBack){

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kenzz.gank.R;
+import com.kenzz.gank.activity.GankActivity;
 import com.kenzz.gank.activity.MeiZiActivity;
 import com.kenzz.gank.bean.GankEntity;
 import com.kenzz.gank.net.ApiManager;
@@ -24,17 +25,11 @@ import com.kenzz.gank.net.IApiCallBack;
 import com.kenzz.gank.util.ImageLoader;
 import com.kenzz.gank.widget.SuperSwipeRefreshLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -121,6 +116,16 @@ public class GirlFragment extends Fragment {
                     Intent intent = new Intent(getContext(), MeiZiActivity.class);
                     intent.putExtra("URL",data.getUrl());
                     startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+                }
+            });
+            holder.mTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(getContext(), GankActivity.class);
+                    intent.putExtra("DATE",data.getPublishedAt());
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
                 }
             });
         }

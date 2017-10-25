@@ -5,10 +5,13 @@ import com.kenzz.gank.bean.GankEntity;
 import com.kenzz.gank.bean.GankSearchEntity;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 /**
  * Created by ken.huang on 10/24/2017.
@@ -27,4 +30,8 @@ public interface Api {
 
     @GET("search/query/{query}/category/{type}/count/20/page/{pageNum}")
     Observable<GankSearchEntity> getSearchDataByCategory(@Path("query")String query, @Path("type")String type, @Path("pageNum")int pageNum);
+
+    @Streaming
+    @GET
+    Observable<ResponseBody> downloadFile(@Url String url);
 }
