@@ -31,6 +31,8 @@
         </activity>
         <activity android:name=".activity.GankActivity">
         </activity>
+        <activity android:name=".activity.GankWebActivity">
+        </activity>
     </application>
 
 </manifest>

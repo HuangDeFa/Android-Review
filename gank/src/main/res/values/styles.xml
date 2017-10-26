@@ -22,4 +22,16 @@
         <item name="android:windowIsTranslucent">true</item>
         <!--<item name="android:windowAnimationStyle">@android:style/Animation</item>-->
     </style>
+<!--自定义Toolbar样式-->
+    <style name="ToolBarTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorSecondary">#ffffffff</item>
+        <item name="android:colorBackground">#aa333333</item>
+        <item name="android:actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
+    <style name="OverflowMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+    </style>
+    <style name="ActionButton.Overflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+
+    </style>
 </resources>

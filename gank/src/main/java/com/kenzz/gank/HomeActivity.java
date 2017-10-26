@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kenzz.gank.activity.BaseActivity;
+import com.kenzz.gank.fragment.AboutFragment;
 import com.kenzz.gank.fragment.GankFragment;
 import com.kenzz.gank.fragment.GirlFragment;
 
@@ -70,10 +71,12 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     private GirlFragment mGirlFragment;
     private GankFragment mGankFragment;
+    private AboutFragment mAboutFragment;
 
     private void initFragment(){
         mGirlFragment=new GirlFragment();
         mGankFragment=new GankFragment();
+        mAboutFragment=new AboutFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.home_main_content,mGirlFragment,"Girl")
                 .commit();
@@ -82,7 +85,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     private void changeFragment(int index){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if(!mGankFragment.isAdded())transaction.add(R.id.home_main_content,mGankFragment,"Gank");
-        transaction.hide(mGankFragment).hide(mGirlFragment);
+        if(!mAboutFragment.isAdded()) transaction.add(R.id.home_main_content,mAboutFragment,"about");
+        transaction.hide(mGankFragment).hide(mGirlFragment).hide(mAboutFragment);
         switch (index)
         {
             case 0:
@@ -92,6 +96,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
                 transaction.show(mGankFragment);
                 break;
             case 2:
+                transaction.show(mAboutFragment);
                 break;
         }
         transaction.commit();

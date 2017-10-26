@@ -3,6 +3,7 @@ package com.kenzz.gank.net;
 import android.content.Context;
 import android.support.annotation.StringDef;
 
+import com.kenzz.gank.bean.GankDailyEntity;
 import com.kenzz.gank.bean.GankEntity;
 
 import java.io.File;
@@ -88,6 +89,10 @@ public class ApiManager {
 
     public void getDataByCategory(@CategoryMode String category, int pageNum,IApiCallBack<GankEntity> callBack) {
        subscribe(mApi.getDataByCategory(category,pageNum),callBack);
+    }
+
+    public void getDailyData(int year, int month, int day, IApiCallBack<GankDailyEntity> callBack){
+        subscribe(mApi.getDailyData(year,month,day),callBack);
     }
 
     public void downloadFile(String url, final File file, final IApiCallBack<String> callBack){
