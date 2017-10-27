@@ -22,21 +22,21 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ServiceActivity extends BaseActivity {
 
     private static final String TAG = ServiceActivity.class.getSimpleName();
 
-    @InjectView(R.id.service_btn_add)
+    @BindView(R.id.service_btn_add)
     Button mButton;
     ExecutorService mExecutorService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         Intent intent = new Intent(this,BookService.class);
         startService(intent);
         bindService(intent,mServiceConnection,Context.BIND_AUTO_CREATE);

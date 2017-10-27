@@ -13,20 +13,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 /**
  * Drawable 相关Demo
  */
 public class DrawableActivity extends BaseActivity {
 
-    @InjectView(R.id.drawable_clip_iv)
+    @BindView(R.id.drawable_clip_iv)
     ImageView mImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawable);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         clipDrawable();
     }
 

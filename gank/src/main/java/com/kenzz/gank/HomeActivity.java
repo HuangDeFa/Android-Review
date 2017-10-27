@@ -16,22 +16,22 @@ import com.kenzz.gank.fragment.GankFragment;
 import com.kenzz.gank.fragment.GirlFragment;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    @InjectView(R.id.home_bottom_nav)
+    @BindView(R.id.home_bottom_nav)
     BottomNavigationView mBottomNavigationView;
-    @InjectView(R.id.home_head_bar)
+    @BindView(R.id.home_head_bar)
     RelativeLayout mHeadContainer;
-    @InjectView(R.id.home_head_title)
+    @BindView(R.id.home_head_title)
     TextView mTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setFullScreen();
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initView();
         initFragment();
     }

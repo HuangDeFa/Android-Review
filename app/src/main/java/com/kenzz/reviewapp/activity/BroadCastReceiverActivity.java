@@ -15,15 +15,15 @@ import android.widget.Toast;
 import com.kenzz.reviewapp.R;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class BroadCastReceiverActivity extends BaseActivity {
 
     private BroadcastReceiver mReceiver;
-    @InjectView(R.id.broadCastReceiver_btn)
+    @BindView(R.id.broadCastReceiver_btn)
     Button mButton;
-    @InjectView(R.id.broadCastReceiver_text)
+    @BindView(R.id.broadCastReceiver_text)
     TextView mTextView;
     private String note="BroadCastReceiver广播接收者,可以拆分为发送广播和接收广播，一般的套路为：\n 1.自定义广播接受者继承BroadcastReceiver" +
             "重写onReceive方法 \n 2.注册广播接受者：静态注册即系在mainfest文件注册，动态注册registerReceiver(一般在Activity中)。本质上都是通过PMS" +
@@ -35,7 +35,7 @@ public class BroadCastReceiverActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_broad_cast_receiver);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         init();
     }
 

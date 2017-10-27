@@ -37,18 +37,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class DesignActivity extends BaseActivity {
 
-   // @InjectView(R.id.design_toolbar)
+   // @BindView(R.id.design_toolbar)
    // Toolbar mToolbar;
-    @InjectView(R.id.design_bottom_tab)
+    @BindView(R.id.design_bottom_tab)
     TabLayout mTabLayout;
 
-  //  @InjectView(R.id.design_appbar)AppBarLayout mBarLayout;
-  //  @InjectView(R.id.design_toolbar_title)TextView mView;
-    @InjectView(R.id.design_recyclerView)
+  //  @BindView(R.id.design_appbar)AppBarLayout mBarLayout;
+  //  @BindView(R.id.design_toolbar_title)TextView mView;
+    @BindView(R.id.design_recyclerView)
     RecyclerView mRecyclerView;
 
     @IntDef({APPBARCLOSE,APPBARCOLLAPSING,APPBAREXPAND})
@@ -76,7 +76,7 @@ public class DesignActivity extends BaseActivity {
         }
         setContentView(R.layout.activity_design);
         initFragment();
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initView();
     }
 

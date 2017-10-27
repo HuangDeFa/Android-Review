@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.kenzz.reviewapp.R;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -33,9 +33,9 @@ public class Design_SecondPageFragment extends Fragment {
     private String mParam2;
 
 
-    @InjectView(R.id.design_secondPage_title)
+    @BindView(R.id.design_secondPage_title)
     TextView titleText;
-    @InjectView(R.id.design_btn_bottomSheet)
+    @BindView(R.id.design_btn_bottomSheet)
     Button mButton;
 
     public Design_SecondPageFragment() {
@@ -79,7 +79,7 @@ public class Design_SecondPageFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ButterKnife.inject(this,getView());
+        ButterKnife.bind(this,getView());
         initView();
     }
 

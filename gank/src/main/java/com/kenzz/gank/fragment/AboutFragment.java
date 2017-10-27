@@ -13,7 +13,7 @@ import com.kenzz.gank.R;
 import com.kenzz.gank.util.CommonUtil;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +25,7 @@ public class AboutFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @InjectView(R.id.about_app_name)
+    @BindView(R.id.about_app_name)
     TextView mAppName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +37,7 @@ public class AboutFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ButterKnife.inject(this,getView());
+        ButterKnife.bind(this,getView());
         CommonUtil.doAnimation(mAppName);
     }
 

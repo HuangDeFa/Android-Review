@@ -22,20 +22,20 @@ import android.widget.TextView;
 import com.kenzz.gank.R;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class GankWebActivity extends BaseActivity {
 
-    @InjectView(R.id.home_head_bar)
+    @BindView(R.id.home_head_bar)
     Toolbar mToolbar;
-    @InjectView(R.id.gank_webView)
+    @BindView(R.id.gank_webView)
     WebView mWebView;
-    @InjectView(R.id.home_head_title)
+    @BindView(R.id.home_head_title)
     TextView mTitleText;
-    @InjectView(R.id.home_head_subtitle)
+    @BindView(R.id.home_head_subtitle)
     TextView mSubTitleText;
-    @InjectView(R.id.gank_webView_progressBar)
+    @BindView(R.id.gank_webView_progressBar)
     ProgressBar mProgressBar;
 
 
@@ -46,7 +46,7 @@ public class GankWebActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gank_web);
         setFullScreen();
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initView();

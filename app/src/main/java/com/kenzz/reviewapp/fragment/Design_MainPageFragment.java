@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.kenzz.reviewapp.R;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 
 /**
@@ -36,10 +36,10 @@ public class Design_MainPageFragment extends Fragment {
     private String mParam2;
 
 
-    @InjectView(R.id.design_toolbar)
+    @BindView(R.id.design_toolbar)
     Toolbar mToolbar;
-    @InjectView(R.id.design_appbar)AppBarLayout mBarLayout;
-    @InjectView(R.id.design_toolbar_title)TextView mView;
+    @BindView(R.id.design_appbar)AppBarLayout mBarLayout;
+    @BindView(R.id.design_toolbar_title)TextView mView;
 
     private int toolBarColor;
     private static final String TAG=Design_MainPageFragment.class.getSimpleName();
@@ -84,7 +84,7 @@ public class Design_MainPageFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ButterKnife.inject(this,getActivity());
+        ButterKnife.bind(this,getActivity());
         initView();
     }
 

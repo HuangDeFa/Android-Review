@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,9 +41,9 @@ public class GirlFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @InjectView(R.id.girl_page_sr)
+    @BindView(R.id.girl_page_sr)
     SuperSwipeRefreshLayout mRefreshLayout;
-    @InjectView(R.id.girl_page_rv)
+    @BindView(R.id.girl_page_rv)
     RecyclerView mRecyclerView;
 
     private List<GankEntity.ResultsBean> mResultsBeen;
@@ -59,7 +59,7 @@ public class GirlFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ButterKnife.inject(this,getView());
+        ButterKnife.bind(this,getView());
         initView();
     }
 

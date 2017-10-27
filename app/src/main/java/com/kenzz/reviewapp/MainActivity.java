@@ -36,12 +36,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import dagger.Lazy;
 
 public class MainActivity extends BaseActivity {
 
-    @InjectView(R.id.main_my_recyclerView)
+    @BindView(R.id.main_my_recyclerView)
     RecyclerView mRecyclerView;
     private List<String> mList=new ArrayList<>();
 
@@ -54,14 +54,14 @@ public class MainActivity extends BaseActivity {
     @Named("wnmF")
     User mOtherUser;
 
-    @Inject
-    Lazy<User> mUserLazy;
+  //  @Inject
+  //  Lazy<User> mUserLazy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initData();
         initDependencyObject();
     }

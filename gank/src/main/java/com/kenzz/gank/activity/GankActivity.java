@@ -25,20 +25,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class GankActivity extends BaseActivity {
 
     private static final String TAG = GankActivity.class.getSimpleName();
     private int[] mDate=new int[3];
-    @InjectView(R.id.back)
+    @BindView(R.id.back)
     ImageView mBackImageView;
-    @InjectView(R.id.home_head_bar)
+    @BindView(R.id.home_head_bar)
     View mHeadBar;
-    @InjectView(R.id.gank_page_rv)
+    @BindView(R.id.gank_page_rv)
     RecyclerView mRecyclerView;
-    @InjectView(R.id.home_head_title)
+    @BindView(R.id.home_head_title)
     TextView mTitleText;
 
     private GankDailyAdapter mAdapter;
@@ -48,7 +48,7 @@ public class GankActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gank);
         setFullScreen();
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         parseDateString();
         initView();
         loadData();
@@ -125,18 +125,18 @@ public class GankActivity extends BaseActivity {
 
     class GankVH extends RecyclerView.ViewHolder{
 
-        @InjectView(R.id.gank_daily_imageView)
+        @BindView(R.id.gank_daily_imageView)
         ImageView mImageView;
-        @InjectView(R.id.gank_daily_content)
+        @BindView(R.id.gank_daily_content)
         TextView  mContentText;
-        @InjectView(R.id.gank_daily_publish)
+        @BindView(R.id.gank_daily_publish)
         TextView  mPublishText;
-        @InjectView(R.id.gank_daily_type)
+        @BindView(R.id.gank_daily_type)
         TextView  mTypeText;
 
         public GankVH(View itemView) {
             super(itemView);
-            ButterKnife.inject(this,itemView);
+            ButterKnife.bind(this,itemView);
         }
     }
 

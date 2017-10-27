@@ -24,13 +24,13 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class QQContactListActivity extends BaseActivity {
 
-    @InjectView(R.id.qqList_head_bar)
+    @BindView(R.id.qqList_head_bar)
     RelativeLayout mLayout;
-    @InjectView(R.id.qqList_contact_list)
+    @BindView(R.id.qqList_contact_list)
     ExpandableListView mExpandableListView;
 
     private List<String> mGroups;
@@ -40,7 +40,7 @@ public class QQContactListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setFullScreen();
         setContentView(R.layout.activity_qqcontact_list);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initView();
     }
 

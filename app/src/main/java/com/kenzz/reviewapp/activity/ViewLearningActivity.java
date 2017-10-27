@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 
 public class ViewLearningActivity extends BaseActivity {
 
-    @InjectView(R.id.view_my_viewPager)
+    @BindView(R.id.view_my_viewPager)
     ViewPager mViewPager;
-    @InjectView(R.id.view_my_tabLayout)
+    @BindView(R.id.view_my_tabLayout)
     TabLayout mTabLayout;
 
     private List<View> mViewList;
@@ -34,7 +34,7 @@ public class ViewLearningActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_learning);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initData();
         initView();
     }

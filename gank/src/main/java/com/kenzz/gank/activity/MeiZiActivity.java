@@ -35,22 +35,22 @@ import java.io.File;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MeiZiActivity extends BaseActivity {
 
-    @InjectView(R.id.meizi_page_image)
+    @BindView(R.id.meizi_page_image)
     ImageView mImageView;
-    @InjectView(R.id.meizi_page_container)
+    @BindView(R.id.meizi_page_container)
     FrameLayout mFrameLayout;
-    @InjectView(R.id.meizi_page_delete)
+    @BindView(R.id.meizi_page_delete)
     ImageView mDeleteIV;
-    @InjectView(R.id.meizi_page_save)
+    @BindView(R.id.meizi_page_save)
     ImageView mSaveIV;
-    @InjectView(R.id.meizi_page_share)
+    @BindView(R.id.meizi_page_share)
     ImageView mShareIV;
-    @InjectView(R.id.meizi_page_titleBar)
+    @BindView(R.id.meizi_page_titleBar)
     RelativeLayout mTitleBarLayout;
     private String mUrl;
     @Override
@@ -58,7 +58,7 @@ public class MeiZiActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mei_zi);
         setFullScreen();
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initViw();
     }
 
