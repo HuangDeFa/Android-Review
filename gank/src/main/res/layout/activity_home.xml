@@ -13,6 +13,7 @@
     app:menu="@menu/main_bottom_nav"
     android:layout_alignParentBottom="true"
     />
+    <!--
     <LinearLayout
         android:id="@+id/home_head_container"
         android:layout_width="match_parent"
@@ -35,11 +36,20 @@
            />
       </RelativeLayout>
     </LinearLayout>
+    -->
+    <include
+        android:id="@+id/home_head_container"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_bar"/>
     <FrameLayout
         android:layout_below="@id/home_head_container"
         android:id="@+id/home_main_content"
         android:layout_above="@id/home_bottom_nav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        >
     </FrameLayout>
 </RelativeLayout>

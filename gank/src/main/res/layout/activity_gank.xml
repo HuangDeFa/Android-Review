@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kenzz.gank.activity.GankActivity">
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/home_head_container"
         android:layout_width="match_parent"
         android:layout_height="76dp"
@@ -35,7 +35,13 @@
                 tools:text="每日干货"
                 />
         </RelativeLayout>
-    </LinearLayout>
+    </LinearLayout>-->
+    <include
+        android:id="@+id/home_head_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/title_bar"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gank_page_rv"
         android:layout_below="@id/home_head_container"

@@ -2,11 +2,14 @@ package com.kenzz.gank;
 
 
 import org.junit.Test;
+import org.reactivestreams.Subscription;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -45,6 +48,7 @@ public class ExampleUnitTest {
         finally {
             System.out.println(response==null);
         }
+        new ArrayList<String>(){{add("d");add("c");}}.forEach(System.out::print);
     }
 
     @Test

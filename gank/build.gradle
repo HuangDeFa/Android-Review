@@ -5,13 +5,13 @@ def keyStoryProperties = new Properties();
 keyStoryProperties.load(new FileInputStream("keystroy.properties"));
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         applicationId "com.kenzz.gank"
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -19,7 +19,7 @@ android {
 
     }
 
-    signingConfigs {
+   /* signingConfigs {
         debug {
             //将key和password写到一个普通的properties文件,并读取内容
             storeFile file("c:/aa/bb")
@@ -34,7 +34,7 @@ android {
             keyAlias RELEASE_ALIAS_KEY
             keyPassword RELEASE_KEY_PASSWORD
         }
-    }
+    }*/
 
     buildTypes {
         release {
@@ -55,6 +55,10 @@ android {
 
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -77,6 +81,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
     testCompile 'junit:junit:4.12'
-
-
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
 }

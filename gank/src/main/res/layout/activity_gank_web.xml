@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kenzz.gank.activity.GankWebActivity">
-    <LinearLayout
+   <!-- <LinearLayout
         android:id="@+id/home_head_container"
         android:layout_width="match_parent"
         android:layout_height="76dp"
@@ -48,7 +48,13 @@
                     />
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
-    </LinearLayout>
+    </LinearLayout>-->
+    <include
+        android:id="@+id/home_head_container"
+        layout="@layout/title_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
     <ProgressBar
         android:id="@+id/gank_webView_progressBar"
         android:layout_below="@id/home_head_container"

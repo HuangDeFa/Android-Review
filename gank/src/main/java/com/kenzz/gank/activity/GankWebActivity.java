@@ -25,16 +25,16 @@ import butterknife.ButterKnife;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class GankWebActivity extends BaseActivity {
+public class GankWebActivity extends ToolbarBaseActivity {
 
-    @BindView(R.id.home_head_bar)
-    Toolbar mToolbar;
+   // @BindView(R.id.home_head_bar)
+   // Toolbar mToolbar;
     @BindView(R.id.gank_webView)
     WebView mWebView;
-    @BindView(R.id.home_head_title)
-    TextView mTitleText;
-    @BindView(R.id.home_head_subtitle)
-    TextView mSubTitleText;
+   // @BindView(R.id.home_head_title)
+   // TextView mTitleText;
+   // @BindView(R.id.home_head_subtitle)
+   // TextView mSubTitleText;
     @BindView(R.id.gank_webView_progressBar)
     ProgressBar mProgressBar;
 
@@ -44,22 +44,32 @@ public class GankWebActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gank_web);
+       /* setContentView(R.layout.activity_gank_web);
         setFullScreen();
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         initView();
     }
 
+    @Override
+    protected boolean canGoBack() {
+        return true;
+    }
+
+    @Override
+    protected boolean isNeedButterKnife() {
+        return true;
+    }
+
     private void initView() {
-        int statusBarHeight = getStatusBarHeight();
+       /* int statusBarHeight = getStatusBarHeight();
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mToolbar.getLayoutParams();
-        layoutParams.topMargin=statusBarHeight;
+        layoutParams.topMargin=statusBarHeight;*/
         String content=getIntent().getStringExtra("CONTENT");
-        mTitleText.setText(content);
+        mToolbar.setTitle(content);
         mURL=getIntent().getStringExtra("URL");
-        mSubTitleText.setText(mURL);
+        mToolbar.setSubtitle(mURL);
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.setWebChromeClient(new WebChromeClient(){
             @Override
@@ -75,10 +85,10 @@ public class GankWebActivity extends BaseActivity {
         mWebView.loadUrl(mURL);
     }
 
+
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+    protected int getContentViewId() {
+        return R.layout.activity_gank_web;
     }
 
     @Override

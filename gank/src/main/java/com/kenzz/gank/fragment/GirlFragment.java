@@ -1,15 +1,19 @@
 package com.kenzz.gank.fragment;
 
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,8 +119,17 @@ public class GirlFragment extends Fragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), MeiZiActivity.class);
                     intent.putExtra("URL",data.getUrl());
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+                    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+                        //Activity切换共享元素动画
+                        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity(),
+                                v, "girlImage").toBundle();
+                        //当有多个共享元素时 采用Pair的方式传进去
+                        //ActivityOptions.makeSceneTransitionAnimation(getActivity(),new Pair<>(v,v.getTransitionName()));
+                        startActivity(intent,bundle);
+                    }else {
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    }
                 }
             });
             holder.mTextView.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +138,7 @@ public class GirlFragment extends Fragment {
                     Intent intent=new Intent(getContext(), GankActivity.class);
                     intent.putExtra("DATE",data.getPublishedAt());
                     startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 }
             });
         }
@@ -157,6 +170,7 @@ public class GirlFragment extends Fragment {
 
     private int pageIndex=1;
     private void loadPage(int pageNum){
+        setRefreshStatus(true);
         ApiManager.getInstance().getDataByCategory(ApiManager.WELFARE_TYPE, pageNum, new IApiCallBack<GankEntity>() {
             @Override
             public void onError(Throwable throwable) {
@@ -170,7 +184,12 @@ public class GirlFragment extends Fragment {
                     mResultsBeen.addAll(data.getResults());
                     mAdapter.notifyDataSetChanged();
                 }
-                setRefreshStatus(false);
+                mRecyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setRefreshStatus(false);
+                    }
+                },800);
             }
         });
     }

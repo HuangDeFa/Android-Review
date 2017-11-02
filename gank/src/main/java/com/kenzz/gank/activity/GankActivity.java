@@ -28,44 +28,49 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GankActivity extends BaseActivity {
+public class GankActivity extends ToolbarBaseActivity {
 
     private static final String TAG = GankActivity.class.getSimpleName();
     private int[] mDate=new int[3];
-    @BindView(R.id.back)
+   /* @BindView(R.id.back)
     ImageView mBackImageView;
     @BindView(R.id.home_head_bar)
-    View mHeadBar;
+    View mHeadBar;*/
     @BindView(R.id.gank_page_rv)
     RecyclerView mRecyclerView;
-    @BindView(R.id.home_head_title)
-    TextView mTitleText;
+   /* @BindView(R.id.home_head_title)
+    TextView mTitleText;*/
 
     private GankDailyAdapter mAdapter;
     private List<GankEntity.ResultsBean> mResultsBeen=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gank);
+       /* setContentView(R.layout.activity_gank);
         setFullScreen();
-        ButterKnife.bind(this);
+        ButterKnife.bind(this);*/
         parseDateString();
         initView();
         loadData();
     }
 
+    @Override
+    protected boolean canGoBack() {
+        return true;
+    }
+
+    @Override
+    protected boolean isNeedButterKnife() {
+        return true;
+    }
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_gank;
+    }
+
     private void initView() {
-        int statusBarHeight = getStatusBarHeight();
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mHeadBar.getLayoutParams();
-        layoutParams.topMargin=statusBarHeight;
-        mBackImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
-            }
-        });
-        mTitleText.setText("每日干货");
+        mToolbar.setTitle("每日干货");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mAdapter = new GankDailyAdapter(mResultsBeen);
         mRecyclerView.setAdapter(mAdapter);
@@ -189,13 +194,11 @@ public class GankActivity extends BaseActivity {
                         Intent intent = new Intent(GankActivity.this, MeiZiActivity.class);
                         intent.putExtra("URL",data.getUrl());
                         startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
                     }else {
                         Intent intent=new Intent(GankActivity.this,GankWebActivity.class);
                         intent.putExtra("URL",data.getUrl());
                         intent.putExtra("CONTENT",data.getDesc());
                         startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
                     }
                 }
             });

@@ -56,10 +56,15 @@ public class MeiZiActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mei_zi);
+        //setContentView(R.layout.activity_mei_zi);
         setFullScreen();
-        ButterKnife.bind(this);
+        //ButterKnife.bind(this);
         initViw();
+    }
+
+    @Override
+    protected boolean isNeedButterKnife() {
+        return true;
     }
 
     private void initViw() {
@@ -77,8 +82,7 @@ public class MeiZiActivity extends BaseActivity {
     public void onClickEvent(View view){
         switch (view.getId()){
             case R.id.meizi_page_delete:
-                finish();
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+                onBackPressed();
                 break;
             case R.id.meizi_page_save:
                 doSaveImage();
@@ -153,6 +157,11 @@ public class MeiZiActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_mei_zi;
     }
 
     @Override

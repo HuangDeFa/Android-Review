@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.kenzz.gank.activity.BaseActivity;
+import com.kenzz.gank.activity.ToolbarBaseActivity;
 import com.kenzz.gank.fragment.AboutFragment;
 import com.kenzz.gank.fragment.GankFragment;
 import com.kenzz.gank.fragment.GirlFragment;
@@ -18,32 +19,47 @@ import com.kenzz.gank.fragment.GirlFragment;
 import butterknife.ButterKnife;
 import butterknife.BindView;
 
-public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class HomeActivity extends ToolbarBaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     @BindView(R.id.home_bottom_nav)
     BottomNavigationView mBottomNavigationView;
-    @BindView(R.id.home_head_bar)
-    RelativeLayout mHeadContainer;
-    @BindView(R.id.home_head_title)
-    TextView mTextView;
+    //@BindView(R.id.home_head_bar)
+   //  RelativeLayout mHeadContainer;
+   // @BindView(R.id.home_head_title)
+   // TextView mTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+       /* setContentView(R.layout.activity_home);
         setFullScreen();
-        ButterKnife.bind(this);
+        ButterKnife.bind(this);*/
         initView();
         initFragment();
     }
 
+    @Override
+    protected boolean canGoBack() {
+        return false;
+    }
+
+    @Override
+    protected boolean isNeedButterKnife() {
+        return true;
+    }
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_home;
+    }
+
     private void initView() {
         mBottomNavigationView.setOnNavigationItemSelectedListener(this);
-        int statusBarHeight = getStatusBarHeight();
+       /* int statusBarHeight = getStatusBarHeight();
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams)
                 mHeadContainer.getLayoutParams();
         lp.topMargin+=statusBarHeight;
-        mHeadContainer.setLayoutParams(lp);
-        mTextView.setText("妹子");
+        mHeadContainer.setLayoutParams(lp);*/
+        mToolbar.setTitle("妹子");
     }
 
     private int mCurrentIndex=-1;
@@ -53,15 +69,15 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         if(id==mCurrentIndex) return true;
         switch (id){
             case R.id.home_bottom_nav_1:
-                mTextView.setText("妹子");
+                mToolbar.setTitle("妹子");
                 mCurrentIndex = 0;
                 break;
             case R.id.home_bottom_nav_2:
-                mTextView.setText("干货");
+                mToolbar.setTitle("GitHub");
                 mCurrentIndex = 1;
                 break;
             case R.id.home_bottom_nav_3:
-                mTextView.setText("其他");
+                mToolbar.setTitle("其他");
                 mCurrentIndex = 2;
                 break;
         }
