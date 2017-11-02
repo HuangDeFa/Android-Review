@@ -29,6 +29,9 @@ import com.kenzz.reviewapp.bean.TestComponent;
 import com.kenzz.reviewapp.bean.TestModule;
 import com.kenzz.reviewapp.bean.User;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -133,6 +136,16 @@ public class MainActivity extends BaseActivity {
         build.inject(this);
 
         Log.d("Dagger","The person is: "+mUser.getName()+", "+mOtherUser.getName());
+    }
+
+    //动态代理模式
+    private <T> T getProxy(Class<T> clazz ){
+       return (T) Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                return null;
+            }
+        });
     }
 
 }
