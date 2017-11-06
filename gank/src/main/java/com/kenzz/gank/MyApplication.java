@@ -2,6 +2,7 @@ package com.kenzz.gank;
 
 import android.app.Application;
 
+import com.kenzz.gank.ndk.HelloSample;
 import com.kenzz.gank.net.ApiManager;
 
 /**
@@ -16,6 +17,7 @@ public class MyApplication extends Application {
         sInstance = this;
         ApiManager.getInstance().init(this);
         StatusBarHeight = getStatusBarHeight();
+        String value = new HelloSample().stringFromJNI();
     }
 
     private static  MyApplication sInstance;
