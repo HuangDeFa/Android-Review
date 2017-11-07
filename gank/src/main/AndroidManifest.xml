@@ -33,6 +33,10 @@
         </activity>
         <activity android:name=".activity.GankWebActivity">
         </activity>
+        <activity android:name=".activity.GankInfoActivity"
+                  android:theme="@style/Theme.AppCompat.Translucent"
+            >
+        </activity>
     </application>
 
 </manifest>
