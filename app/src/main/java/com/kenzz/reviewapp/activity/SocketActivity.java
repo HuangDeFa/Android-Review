@@ -24,6 +24,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+/**
+ * 利用Socket进行IPC即跨进程通讯。Socket是传输层的编程实现可以指定TCP/UDP通信协议，这是个全双工的通信。
+ * 即系客户端接受客户端信息同时也能发送信息给服务端 反过来服务端也一样。
+ * 首先 服务端创建ServerSocket 监听指定的端口。等待客户端的连接(因为这会是个阻塞的操作需要放到子线程去实现)，
+ * 当客户端有连接时返回一个新的socket以供和客户端进行通信。这里当一个新的socket到来时接收客户端的信息或者发送
+ * 信息给客户端也是个阻塞过程因此也要在子线程中去实现。
+ *
+ * 作为客户端首先要创建一个连接到服务端的socket。当socket连接上之后创建输入输出流以用来读取信息和发送信息。当然这些操作
+ * 也是阻塞的同样需要在子线程操作。
+ */
 public class SocketActivity extends AppCompatActivity {
 
     final static String TAG=SocketActivity.class.getSimpleName();
@@ -48,18 +58,21 @@ public class SocketActivity extends AppCompatActivity {
                 try {
                     Socket socket = new Socket("localhost",60000);
                     if(socket.isConnected()){
-                        mPrintWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+                        mPrintWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()),true);
                         Log.d(TAG,"socket is connected");
                         while (true){
+                            //等待接受服务端信息
                             InputStream inputStream = socket.getInputStream();
-                            if(inputStream==null || inputStream.available()==-1){
+                            if(inputStream==null || inputStream.available()==0){
+                                //没有信息则休眠
                                 SystemClock.sleep(500);
+                                continue;
                             }
                             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                             String msg =  reader.readLine();
                             while (!TextUtils.isEmpty(msg)) {
                                 Log.d(TAG, "From Server-> " +msg);
-                                reader.readLine();
+                               msg = reader.readLine();
                             }
                         }
                     }
@@ -78,6 +91,7 @@ public class SocketActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    //发送信息给服务端
                     mPrintWriter.println("hello server "+times++);
                 }
             }).start();

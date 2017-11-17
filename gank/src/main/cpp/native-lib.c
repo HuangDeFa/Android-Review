@@ -2,8 +2,6 @@
 // Created by ken.huang on 11/6/2017.
 //
 
-#include "native-lib.h"
-#include "stdio.h"
 #include "jni.h"
 #include "string.h"
 
@@ -40,5 +38,5 @@ Java_com_kenzz_gank_ndk_HelloSample_stringFromJNI(JNIEnv* env,jobject obj){
 #else
 #define ABI "unknown"
 #endif
-    return (*env).NewStringUTF((const char *) 'a');
+    return (*env)->NewStringUTF(env, "Hello from JNI !  Compiled with ABI " ABI ".");
 }
