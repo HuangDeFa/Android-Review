@@ -48,11 +48,11 @@ public class SocketActivity extends AppCompatActivity {
                 try {
                     Socket socket = new Socket("localhost",60000);
                     if(socket.isConnected()){
-                        mPrintWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+                        mPrintWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()),true);
                         Log.d(TAG,"socket is connected");
                         while (true){
                             InputStream inputStream = socket.getInputStream();
-                            if(inputStream==null || inputStream.available()==-1){
+                            if(inputStream==null || inputStream.available()==0){
                                 SystemClock.sleep(500);
                             }
                             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));

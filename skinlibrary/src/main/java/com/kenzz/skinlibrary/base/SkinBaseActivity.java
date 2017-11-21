@@ -1,9 +1,15 @@
 package com.kenzz.skinlibrary.base;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.kenzz.skinlibrary.SkinLayoutFactory;
 
 /**
  * Created by ken.huang on 11/3/2017.
@@ -13,8 +19,14 @@ import android.view.View;
  */
 
 public abstract class SkinBaseActivity extends AppCompatActivity {
+
+    private SkinLayoutFactory mSkinLayoutFactory;
     @Override
-    public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-        return super.onCreateView(parent, name, context, attrs);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        mSkinLayoutFactory = new SkinLayoutFactory();
+        LayoutInflaterCompat.setFactory2(getLayoutInflater(),mSkinLayoutFactory);
+        super.onCreate(savedInstanceState);
+        mSkinLayoutFactory.setDelegate(getDelegate());
     }
+
 }

@@ -1,5 +1,7 @@
 package com.kenzz.skinlibrary.attr;
 
+import android.view.View;
+
 /**
  * Created by ken.huang on 11/3/2017.
  * version:1.0
@@ -8,6 +10,10 @@ package com.kenzz.skinlibrary.attr;
  */
 
 public abstract class SkinAttr {
-    String resourceName;
-    abstract void skin();
+
+    private String attrType;
+
+    private String attrValue;
+
+    abstract void applySkin(View view);
 }

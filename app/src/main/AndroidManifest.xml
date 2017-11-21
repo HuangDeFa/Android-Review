@@ -58,6 +58,8 @@
         </activity>
         <activity android:name=".activity.SocketActivity">
         </activity>
+        <activity android:name=".activity.SkinActivity">
+        </activity>
     </application>
 
 </manifest>

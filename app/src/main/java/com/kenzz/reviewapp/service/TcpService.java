@@ -63,7 +63,6 @@ public class TcpService extends Service {
         public void run() {
             try {
                 mServerSocket = new ServerSocket(60000);
-                mServerSocket.bind(new InetSocketAddress("localhost",60000));
             } catch (IOException e) {
                 e.printStackTrace();
             }
