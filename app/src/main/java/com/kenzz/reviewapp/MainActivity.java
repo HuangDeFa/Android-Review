@@ -18,6 +18,7 @@ import com.kenzz.reviewapp.activity.BaseActivity;
 import com.kenzz.reviewapp.activity.BroadCastReceiverActivity;
 import com.kenzz.reviewapp.activity.DesignActivity;
 import com.kenzz.reviewapp.activity.DrawableActivity;
+import com.kenzz.reviewapp.activity.GlideActivity;
 import com.kenzz.reviewapp.activity.QQContactListActivity;
 import com.kenzz.reviewapp.activity.RemoteViewsActivity;
 import com.kenzz.reviewapp.activity.ServiceActivity;
@@ -81,6 +82,7 @@ public class MainActivity extends BaseActivity {
         mList.add("Drawable Demo");
         mList.add("SocketDemo");
         mList.add("换肤Demo");
+        mList.add("Glide ActivityDemo");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -133,6 +135,8 @@ public class MainActivity extends BaseActivity {
                                 break;
                                 default:
                                     break;
+                                startActivity(new Intent(MainActivity.this, GlideActivity.class));
+                                break;
                         }
                     }
                 });

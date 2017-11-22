@@ -16,4 +16,6 @@ public abstract class SkinAttr {
     private String attrValue;
 
     abstract void applySkin(View view);
+    String resourceName;
+    abstract void skin(View view);
 }

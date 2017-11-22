@@ -18,12 +18,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+         android:name="com.kenzz.reviewapp.okHttp.MyGlideModule"
+         android:value="GlideModule" />
         <activity android:name=".MainActivity">
+
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            -->
         </activity>
         <activity android:name=".activity.ViewLearningActivity">
         </activity>
@@ -59,6 +65,14 @@
         <activity android:name=".activity.SocketActivity">
         </activity>
         <activity android:name=".activity.SkinActivity">
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.GlideActivity">
         </activity>
     </application>
 

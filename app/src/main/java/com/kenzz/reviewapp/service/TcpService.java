@@ -22,6 +22,7 @@ import java.util.concurrent.Executors;
  * Created by huangdefa on 07/11/2017.
  * Version 1.0
  * 采用socket 通信服务端
+ * TCP是传输层的通信协议。socket建立在传输层可以使用tcp/udp协议进行传输，对数据传输的一种编程的封装
  */
 
 public class TcpService extends Service {
