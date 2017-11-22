@@ -1,1 +1,1 @@
-include ':app', ':gank', ':skinlibrary'
+include ':app', ':gank', ':skinlibrary', ':reader'
