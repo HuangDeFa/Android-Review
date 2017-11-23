@@ -55,14 +55,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 设置状态栏的颜色
-     *
+     * 注意：如果根部局是DrawerLayout 必须在布局文件设置fitSystemWindows=true;
      * @param statusBarColor
      */
     public void setStatusBarColor(@ColorInt int statusBarColor) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return;
         }
-        setFullScreen();
+        transparentStatusBar();
         View decorView = getWindow().getDecorView();
         ViewGroup rootView = decorView.findViewById(android.R.id.content);
         View firstChild = rootView.getChildAt(0);
@@ -96,49 +96,28 @@ public abstract class BaseActivity extends AppCompatActivity {
                }
            }
         }
-       // addTranslucentView(this,0);
 
     }
 
-
     /**
-     * 添加半透明矩形条
-     *
-     * @param activity       需要设置的 activity
-     * @param statusBarAlpha 透明值
+     * 状态栏透明，并且全屏显示
      */
-    private  void addTranslucentView(Activity activity, int statusBarAlpha) {
-        ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);
-        if (contentView.getChildCount() > 1) {
-            contentView.getChildAt(1).setBackgroundColor(Color.argb(statusBarAlpha, 0, 0, 0));
-        } else {
-            contentView.addView(createTranslucentStatusBarView(activity, statusBarAlpha));
+    public void setFullScreen() {
+        transparentStatusBar();
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
 
     /**
-     * 创建半透明矩形 View
-     *
-     * @param alpha 透明值
-     * @return 半透明 View
+     * 状态栏透明
      */
-    private  StatusBarView createTranslucentStatusBarView(Activity activity, int alpha) {
-        // 绘制一个和状态栏一样高的矩形
-        StatusBarView statusBarView = new StatusBarView(activity);
-        LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(activity));
-        statusBarView.setLayoutParams(params);
-        statusBarView.setBackgroundColor(Color.argb(alpha, 0, 0, 0));
-        return statusBarView;
-    }
-
-    public void setFullScreen() {
+    public void transparentStatusBar(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-           // getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-           //         View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
