@@ -14,16 +14,72 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_head"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="@color/colorPrimaryDark"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@android:color/white"
+            app:subtitleTextColor="#99FFFFFF"
             >
+         <ImageView
+             android:id="@+id/iv_menu"
+             android:contentDescription="menu"
+             android:layout_width="wrap_content"
+             android:layout_height="match_parent"
+             android:paddingLeft="15dp"
+             android:paddingRight="15dp"
+             android:src="@mipmap/titlebar_menu"
+             android:clickable="true"
+             android:background="?attr/selectableItemBackgroundBorderless"
+             />
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_title_gank"
+                        android:layout_width="55dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/titlebar_disco" />
+
+                    <ImageView
+                        android:id="@+id/iv_title_dou"
+                        android:layout_width="55dp"
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/titlebar_music" />
+
+                    <ImageView
+                        android:id="@+id/iv_title_one"
+                        android:layout_width="55dp"
+                        android:layout_height="match_parent"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/titlebar_friends" />
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
         </android.support.v7.widget.Toolbar>
+       <com.kenzz.reader.widget.SuperViewPager
+           android:id="@+id/vp_content"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+       </com.kenzz.reader.widget.SuperViewPager>
     </LinearLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

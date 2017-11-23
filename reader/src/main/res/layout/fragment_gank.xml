@@ -1,0 +1,23 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             tools:context="com.kenzz.reader.fragment.GankFragment">
+    <com.kenzz.reader.widget.SuperViewPager
+        android:id="@+id/pv_gank_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tbl_head"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="@android:color/black"
+            app:tabMode="fixed"
+            app:tabIndicatorColor="@color/colorPrimary"
+            >
+        </android.support.design.widget.TabLayout>
+    </com.kenzz.reader.widget.SuperViewPager>
+</FrameLayout>
