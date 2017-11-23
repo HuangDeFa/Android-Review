@@ -133,10 +133,11 @@ public class MainActivity extends BaseActivity {
                             case 8:
                                 startActivity(new Intent(MainActivity.this, SkinActivity.class));
                                 break;
-                                default:
-                                    break;
+                            case 9:
                                 startActivity(new Intent(MainActivity.this, GlideActivity.class));
                                 break;
+                                default:
+                                    break;
                         }
                     }
                 });
