@@ -7,5 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <declare-styleable name="Banner">
+        <attr name="AutoPlay" format="boolean"/>
+        <attr name="IndicatorStyle" format="enum">
+            <enum name="DotStyle" value="2"/>
+            <enum name="TextStyle" value="1"/>
+        </attr>
+        <attr name="DotSelectedColor" format="color"/>
+        <attr name="DotNormalColor" format="color"/>
+        <attr name="DotIndicatorDistance" format="dimension"/>
+    </declare-styleable>
 </resources>

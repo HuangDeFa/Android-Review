@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="15dp"
+    >
+<ImageView
+    android:id="@+id/iv_item_gank_daily_content_one"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@mipmap/img_four_bi_three"
+    />
+ <TextView
+     android:id="@+id/tv_item_gank_daily_content_one"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:textSize="12sp"
+     android:textColor="@android:color/black"
+     android:lines="2"
+     android:ellipsize="end"
+     android:text="暴走大号司机被封了23164645645645646464565646454545kkkkkkkkkkjljljl"
+
+     />
+</LinearLayout>

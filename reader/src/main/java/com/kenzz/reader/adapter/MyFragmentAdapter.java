@@ -2,10 +2,8 @@ package com.kenzz.reader.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.view.ViewGroup;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-import java.io.LineNumberInputStream;
 import java.util.List;
 
 /**
@@ -13,7 +11,7 @@ import java.util.List;
  *
  */
 
-public class MyFragmentAdapter extends FragmentPagerAdapter {
+public class MyFragmentAdapter extends FragmentStatePagerAdapter {
 
     private MyFragmentAdapter(FragmentManager fm) {
         super(fm);
