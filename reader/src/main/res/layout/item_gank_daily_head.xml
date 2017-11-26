@@ -3,11 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.kenzz.reader.widget.Banner
         android:id="@+id/banner_header"
         android:layout_width="match_parent"
+        android:layout_marginBottom="8dp"
         app:IndicatorStyle="DotStyle"
         app:DotNormalColor="#FFFFFF"
         app:DotSelectedColor="@color/colorPrimary"
@@ -33,6 +34,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:src="@drawable/gank_daily_ic_fm"
+           android:clickable="true"
            />
          <TextView
              android:layout_marginTop="5dp"
@@ -56,6 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/gank_daily_ic_day"
+                    android:clickable="true"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -63,8 +66,7 @@
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:text="20"
-
-                    android:textColor="@drawable/gank_daily_ic_text"
+                    android:textColor="@color/gank_daily_ic_text"
                     />
             </FrameLayout>
             <TextView
@@ -83,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
+                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/gank_daily_ic_rank"

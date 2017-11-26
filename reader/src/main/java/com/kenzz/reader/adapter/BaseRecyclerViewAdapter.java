@@ -10,19 +10,9 @@ import java.util.List;
  * BaseRecyclerViewAdapter
  */
 
-public class BaseRecyclerViewAdapter<E> extends RecyclerView.Adapter {
+public abstract class BaseRecyclerViewAdapter<E,VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private List<E> dataList;
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-    }
+    public List<E> dataList;
 
     @Override
     public int getItemCount() {

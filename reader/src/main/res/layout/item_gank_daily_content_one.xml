@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginBottom="15dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     >
 <ImageView
     android:id="@+id/iv_item_gank_daily_content_one"

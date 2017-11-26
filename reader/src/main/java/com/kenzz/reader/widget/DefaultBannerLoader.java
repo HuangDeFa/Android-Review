@@ -23,16 +23,15 @@ public class DefaultBannerLoader implements Banner.IBannerDataViewLoader {
     @Override
     public View loadView(ViewGroup parent, Object bannerData) {
         ImageView imageView=new ImageView(mContext);
-        Glide.with(mContext)
-                .asDrawable()
-                .load(bannerData)
-                .apply(new RequestOptions().placeholder(R.mipmap.img_two_bi_one))
-                .into(imageView);
         return imageView;
     }
 
     @Override
-    public void dataBind(View view) {
-
+    public void dataBind(View view,Object bannerData) {
+        Glide.with(mContext)
+                .asDrawable()
+                .load(bannerData)
+                .apply(new RequestOptions().placeholder(R.mipmap.img_two_bi_one).centerCrop())
+                .into((ImageView) view);
     }
 }

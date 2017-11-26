@@ -5,16 +5,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
@@ -34,7 +27,6 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.kenzz.reader.R;
-import com.scwang.smartrefresh.header.MaterialHeader;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -75,13 +67,12 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private float dotDistance;
 
     List<Object> bannerDatas=new ArrayList<>();
-    List<View> viewCaches=new ArrayList<>();
     private IBannerDataViewLoader mBannerDataViewLoader;
 
 
     static interface IBannerDataViewLoader{
         View loadView(ViewGroup parent,Object bannerData);
-        void dataBind(View view);
+        void dataBind(View view,Object bannerData);
     }
 
     class DotView extends View{
@@ -172,10 +163,11 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         }
     }
 
-    public void setBannerDatas(List<Object> bannerDatas){
+    public void setBannerDatas(List<Object> bannerDatas,boolean keepLastPosition){
 
         if(bannerDatas==null)return;
-        this.bannerDatas = bannerDatas;
+        this.bannerDatas.clear();
+        this.bannerDatas.addAll(bannerDatas);
         mAdapter.notifyDataSetChanged();
         mIndicatorText.setText(String.format("%1s/%2s","1",bannerDatas.size()));
         mIndicatorLayout.removeAllViews();
@@ -193,14 +185,16 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
                 view.setSelected(true);
             }
         }
+        if(!keepLastPosition)
         currentPageIndex=MAX_COUNT/2;
         mViewPager.setCurrentItem(currentPageIndex,true);
+        stopPlay();
         if(isAutoPlay){
             startPlay();
         }
     }
     public void setDataAndLoader(List<Object> bannerDatas,IBannerDataViewLoader loader){
-        setBannerDatas(bannerDatas);
+        setBannerDatas(bannerDatas,true);
         mBannerDataViewLoader = loader;
     }
 
@@ -265,6 +259,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
      addView(mIndicatorText,lp);
      mHandler = new BannerHandler();
      setIndicatorStyle(mIndicatorStyle);
+     currentPageIndex=MAX_COUNT/2;
     }
 
     private class BannerHandler extends Handler{
@@ -319,6 +314,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        stopPlay();
         mHandler.removeCallbacksAndMessages(null);
     }
 
@@ -339,16 +335,18 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            View view=null;
             position=convertViewPagerPositionToReal(position);
-            if(viewCaches.size()>position) {
-                    view=viewCaches.get(position);
+            View view=mBannerDataViewLoader.loadView(container,bannerDatas.get(position));
+            mBannerDataViewLoader.dataBind(view,bannerDatas.get(position));
+            try {
+                //某些时候在Fragment中使用会出现View没有remove的情况
+                if(view.getParent()!=null){
+                    ((ViewGroup)view.getParent()).removeView(view);
+                }
+                container.addView(view);
+            }catch (Exception e){
+                e.printStackTrace();
             }
-            if(view==null && mBannerDataViewLoader!=null){
-                view=mBannerDataViewLoader.loadView(container,bannerDatas.get(position));
-                mBannerDataViewLoader.dataBind(view);
-            }
-            container.addView(view);
             return view;
         }
 
@@ -359,8 +357,12 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     };
 
     private int convertViewPagerPositionToReal(int position){
+        boolean a=position<MAX_COUNT/2;
         position =Math.abs(position-MAX_COUNT/2);
         position =position%bannerDatas.size();
+        if(a && position!=0){
+            position = bannerDatas.size()-position;
+        }
         return position;
     }
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kenzz.reader.activity.WelfareActivity">
+
+<com.kenzz.reader.widget.SuperViewPager
+    android:id="@+id/vp_welfare_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+</com.kenzz.reader.widget.SuperViewPager>
+   <TextView
+       android:id="@+id/tv_welfare_activity"
+       android:background="#96463f3f"
+       android:layout_alignParentBottom="true"
+       android:layout_width="match_parent"
+       android:textColor="@android:color/white"
+       android:gravity="center_horizontal"
+       android:paddingTop="20dp"
+       android:textSize="16sp"
+       tools:text="20/30"
+       android:layout_height="120dp"/>
+</RelativeLayout>
