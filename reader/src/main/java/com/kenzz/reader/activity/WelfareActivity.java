@@ -4,12 +4,11 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.util.Pair;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.textservice.TextServicesManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,16 +25,27 @@ import android.widget.TextView;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.kenzz.reader.R;
+import com.kenzz.reader.http.DownloadListener;
+import com.kenzz.reader.http.DownloadManager;
+import com.kenzz.reader.http.DownloadService;
 import com.kenzz.reader.utils.ImageLoader;
 import com.kenzz.reader.utils.ToastUtil;
 import com.kenzz.reader.widget.SuperViewPager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class WelfareActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
@@ -234,7 +243,24 @@ public class WelfareActivity extends BaseActivity implements ViewPager.OnPageCha
                 startActivity(intent);
                 break;
             case R.id.download_file:
+                String path =DownloadManager.getDefaultDirPath("meizi", Calendar.getInstance().getTimeInMillis()+".jpg");
+                DownloadManager.downloadFile(imageUrls.get(currentIndex).getKey(),
+                        path, new DownloadListener() {
+                            @Override
+                            public void onError(Throwable error) {
+                                ToastUtil.showShortToast(WelfareActivity.this,error.getMessage());
+                            }
 
+                            @Override
+                            public void onSuccess() {
+                                ToastUtil.showShortToast(WelfareActivity.this,"妹子存盘成功！！");
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -243,5 +269,42 @@ public class WelfareActivity extends BaseActivity implements ViewPager.OnPageCha
     @OnClick({R.id.iv_back})
     public void onBack(View view){
         onBackPressed();
+    }
+
+    @VisibleForTesting
+    public void testDownload(){
+        OkHttpClient client = new  OkHttpClient.Builder()
+                .build();
+        Retrofit.Builder builder=new Retrofit.Builder();
+        DownloadService service =
+                builder.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .baseUrl("http://aa.example.com/api/")
+                        .client(client)
+                        .build()
+                        .create(DownloadService.class);
+        service.downloadFile("http://ww2.sinaimg.cn/large/7a8aed7bjw1ewym3nctp0j20i60qon23.jpg")
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        System.out.println(d);
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        System.out.println(responseBody);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        System.out.println("complete!!");
+                    }
+                });
     }
 }

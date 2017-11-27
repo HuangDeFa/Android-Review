@@ -38,6 +38,7 @@ public class ApiManager {
 
     private static Map<Class,String> baseUrlCache=new HashMap<Class,String>(){{
         put(GankService.class,"http://gank.io/api/");
+        put(DownloadService.class,"http://gank.io/api/");
     }};
     private Map<Class,Object> serviceCache=new HashMap<>();
 
@@ -78,9 +79,10 @@ public class ApiManager {
 
     private <T> Object createDownloadService(Class<T> clazz) {
         Retrofit.Builder builder=new Retrofit.Builder();
-        String baseUrl ="http://www.kenzz.com";
+        String baseUrl =baseUrlCache.get(clazz);
         builder.baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(getokHttpClient());
 
         return builder.build().create(clazz);

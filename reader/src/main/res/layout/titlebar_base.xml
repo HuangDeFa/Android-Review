@@ -18,7 +18,7 @@
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:theme="@style/ToolBarTheme"
         app:subtitleTextColor="@android:color/white"
         app:titleTextColor="@android:color/white"
@@ -28,6 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_back"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
             />
         <TextView
             android:id="@+id/tv_toolbar_title"
