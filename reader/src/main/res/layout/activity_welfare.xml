@@ -12,7 +12,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 </com.kenzz.reader.widget.SuperViewPager>
+<include
+    android:id="@+id/ll_bar"
+    layout="@layout/titlebar_base"/>
    <TextView
+       android:layout_gravity="center"
        android:id="@+id/tv_welfare_activity"
        android:background="#96463f3f"
        android:layout_alignParentBottom="true"

@@ -44,12 +44,14 @@ public class ApiManager {
     public <T> T getService(Class<T> clazz){
         Object o = serviceCache.get(clazz);
         if(o==null){
+            if(clazz==DownloadService.class)
+                o=createDownloadService(clazz);
+             else
             o=createService(clazz);
             serviceCache.put(clazz,o);
         }
         return (T)o;
     }
-
     private <T> Object createService(Class<T> clazz) {
         Retrofit.Builder builder=new Retrofit.Builder();
         String baseUrl = baseUrlCache.get(clazz);
@@ -73,4 +75,15 @@ public class ApiManager {
         }
         return client;
     }
+
+    private <T> Object createDownloadService(Class<T> clazz) {
+        Retrofit.Builder builder=new Retrofit.Builder();
+        String baseUrl ="http://www.kenzz.com";
+        builder.baseUrl(baseUrl)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(getokHttpClient());
+
+        return builder.build().create(clazz);
+    }
+
 }

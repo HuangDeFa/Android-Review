@@ -22,8 +22,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
@@ -75,9 +77,9 @@ public class WelfareFragment extends BaseFragment implements OnRefreshListener, 
         mWelfareAdapter.setWelfareListener(new WelfareAdapter.WelfareAdapterListener() {
             @Override
             public void onClick(View view, int position) {
-                ArrayList<String> urls=new ArrayList<>();
+                ArrayList<Map.Entry<String,String>> urls=new ArrayList<>();
                 for (GankEntity.ResultsBean resultsBean : dataList) {
-                    urls.add(resultsBean.url);
+                    urls.add(new AbstractMap.SimpleEntry<String, String>(resultsBean.url,resultsBean.desc));
                 }
                 WelfareActivity.startActivity(getActivity(),urls,position);
             }

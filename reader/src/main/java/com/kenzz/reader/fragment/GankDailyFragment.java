@@ -78,6 +78,7 @@ public class GankDailyFragment extends BaseFragment {
         String result = String.format("%s_%s_%s", date[0], date[1], date[2]);
         List<String> bannerUrls = SPUtil.getStrings(MyApplication.getInstance(), Constant.BANNERURL);
         if (bannerUrls != null) {
+            bannerDatas.clear();
             bannerDatas.addAll(bannerUrls);
         }
         if (!TextUtils.isEmpty(daily_update)) {

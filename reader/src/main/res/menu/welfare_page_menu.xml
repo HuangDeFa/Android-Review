@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+   <item android:id="@+id/share"
+         android:title="@string/menu_share"
+         app:showAsAction="never"
+         />
+    <item android:id="@+id/copy_link"
+          android:title="@string/menu_copy_link"
+          app:showAsAction="never"
+          />
+    <item app:showAsAction="never"
+          android:title="@string/menu_open_browser"
+          android:id="@+id/open_browser"
+          />
+    <item app:showAsAction="ifRoom"
+          android:title="@string/menu_download"
+          android:id="@+id/download_file"
+          android:icon="@mipmap/actionbar_download"
+          />
+</menu>

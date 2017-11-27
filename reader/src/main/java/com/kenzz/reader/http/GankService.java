@@ -5,9 +5,13 @@ import android.support.annotation.IntRange;
 import com.kenzz.reader.bean.GankDailyEntity;
 import com.kenzz.reader.bean.GankEntity;
 
+import java.io.File;
+
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 /**
  * Created by ken.huang on 11/24/2017.

@@ -1,28 +1,42 @@
 package com.kenzz.reader.activity;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.WindowManager;
+import android.view.textservice.TextServicesManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.kenzz.reader.R;
 import com.kenzz.reader.utils.ImageLoader;
+import com.kenzz.reader.utils.ToastUtil;
 import com.kenzz.reader.widget.SuperViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class WelfareActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
@@ -30,37 +44,55 @@ public class WelfareActivity extends BaseActivity implements ViewPager.OnPageCha
     SuperViewPager mViewPager;
     @BindView(R.id.tv_welfare_activity)
     TextView mTextView;
+    @BindView(R.id.tb_head)
+    Toolbar mToolbar;
+    @BindView(R.id.status_view)
+    View mView;
+    @BindView(R.id.ll_bar)
+    LinearLayout headLayout;
+    @BindView(R.id.tv_toolbar_title)
+    TextView titleText;
 
     final static String IMAGE_URL = "image_url";
-    final static String START_INDEX="start_index";
-    private List<String> imageUrls = new ArrayList<>();
+    final static String START_INDEX = "start_index";
+    private List<Map.Entry<String,String>> imageUrls = new ArrayList<>();
     private int currentIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setFullScreen();
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
         initData();
         initView();
     }
 
     private void initData() {
         imageUrls.clear();
-        imageUrls.addAll(getIntent().getStringArrayListExtra(IMAGE_URL));
-        currentIndex=getIntent().getIntExtra(START_INDEX,0);
+        imageUrls.addAll(getIntent().getParcelableArrayListExtra(IMAGE_URL));
+        currentIndex = getIntent().getIntExtra(START_INDEX, 0);
     }
 
     private void initView() {
-      mViewPager.setOffscreenPageLimit(2);
-      mViewPager.setAdapter(new WelfarePageAdapter());
-      mViewPager.setCurrentItem(currentIndex,true);
-      mViewPager.addOnPageChangeListener(this);
-      mTextView.setText(String.format("%s/%s",currentIndex+1,imageUrls.size()));
+        int statusBarHeight = getStatusBarHeight(this);
+        mView.getLayoutParams().height=statusBarHeight;
+        mView.setVisibility(View.VISIBLE);
+        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setAdapter(new WelfarePageAdapter());
+        mViewPager.setCurrentItem(currentIndex, true);
+        mViewPager.addOnPageChangeListener(this);
+        mTextView.setText(String.format("%s/%s", currentIndex + 1, imageUrls.size()));
+        titleText.setText(imageUrls.get(currentIndex).getValue());
     }
 
-    public static void startActivity(Activity activity, ArrayList<String> imageUrls, int start) {
+    public static void startActivity(Activity activity, ArrayList<Map.Entry<String,String>> imageUrls, int start) {
         Intent intent = new Intent(activity, WelfareActivity.class);
-        intent.putStringArrayListExtra(IMAGE_URL, imageUrls);
-        intent.putExtra(START_INDEX,start);
+        intent.putExtra(IMAGE_URL,imageUrls);
+        intent.putExtra(START_INDEX, start);
         activity.startActivity(intent);
     }
 
@@ -76,21 +108,57 @@ public class WelfareActivity extends BaseActivity implements ViewPager.OnPageCha
         }
         if (result == null) {
             result = new PhotoView(this);
+            result.setBackgroundColor(Color.BLACK);
             result.setOnPhotoTapListener(new OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(ImageView view, float x, float y) {
-                    if(mTextView.getAlpha()==0.f){
-                       Animation animation = AnimationUtils.
-                               loadAnimation(WelfareActivity.this,R.anim.pop_in_bottom);
-                        mTextView.startAnimation(animation);
-                    }else {
-                        Animation animation = AnimationUtils.
-                                loadAnimation(WelfareActivity.this,R.anim.pop_out_bottom);
-                        mTextView.startAnimation(animation);
+                    if (mTextView.getAlpha() == 0.f) {
+                        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mTextView.getLayoutParams();
+                        final int originalHeight = (int) mTextView.getTag();
+                        ViewGroup.LayoutParams lp2 = headLayout.getLayoutParams();
+                        final int originalHeight2= (int) headLayout.getTag();
+                        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f)
+                                .setDuration(350);
+                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                float value = (float) animation.getAnimatedValue();
+                                mTextView.setAlpha(value);
+                                lp.height = (int) (originalHeight * value);
+                                mTextView.setLayoutParams(lp);
+                                headLayout.setAlpha(value);
+                                lp2.height= (int) (originalHeight2*value);
+                            }
+                        });
+                        animator.start();
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    } else {
+                        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mTextView.getLayoutParams();
+                        final int originalHeight = lp.height;
+                        mTextView.setTag(originalHeight);
+                        ViewGroup.LayoutParams lp2 = headLayout.getLayoutParams();
+                        final int originalHeight2= headLayout.getMeasuredHeight();
+                        headLayout.setTag(originalHeight2);
+
+                        ValueAnimator animator = ValueAnimator.ofFloat(1f, 0)
+                                .setDuration(350);
+                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            @Override
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                float value = (float) animation.getAnimatedValue();
+                                mTextView.setAlpha(value);
+                                lp.height = (int) (originalHeight * value);
+                                mTextView.setLayoutParams(lp);
+                                headLayout.setAlpha(value);
+                                lp2.height= (int) (originalHeight2*value);
+                            }
+                        });
+                        animator.start();
+                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     }
                 }
             });
-           // imageViewCache.add(result);
+             imageViewCache.add(result);
         }
         return result;
     }
@@ -108,7 +176,8 @@ public class WelfareActivity extends BaseActivity implements ViewPager.OnPageCha
     @Override
     public void onPageSelected(int position) {
         currentIndex = position;
-        mTextView.setText(String.format("%s/%s",currentIndex+1,imageUrls.size()));
+        mTextView.setText(String.format("%s/%s", currentIndex + 1, imageUrls.size()));
+        titleText.setText(imageUrls.get(currentIndex).getValue());
     }
 
     @Override
@@ -130,7 +199,7 @@ public class WelfareActivity extends BaseActivity implements ViewPager.OnPageCha
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = obtainImageView();
-            ImageLoader.LoadImage(imageView, imageUrls.get(position), R.mipmap.img_four_bi_three);
+            ImageLoader.LoadImage(imageView, imageUrls.get(position).getKey(), R.mipmap.img_four_bi_three);
             container.addView(imageView);
             return imageView;
         }
@@ -139,5 +208,40 @@ public class WelfareActivity extends BaseActivity implements ViewPager.OnPageCha
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.welfare_page_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       // ToastUtil.showShortToast(this, "you click menu-" + item.getTitle());
+        switch (item.getItemId()){
+            case R.id.copy_link:
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("Url", imageUrls.get(currentIndex).getKey());
+                clipboardManager.setPrimaryClip(clipData);
+                ToastUtil.showShortToast(this,"复制成功");
+                break;
+            case R.id.share:
+                ToastUtil.showShortToast(this, "you click menu-" + item.getTitle());
+                break;
+            case R.id.open_browser:
+                Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse(imageUrls.get(currentIndex).getKey()));
+                startActivity(intent);
+                break;
+            case R.id.download_file:
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick({R.id.iv_back})
+    public void onBack(View view){
+        onBackPressed();
     }
 }
