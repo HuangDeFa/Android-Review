@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp">
+<TextView
+    android:layout_gravity="center_vertical"
+    android:id="@+id/tv_item_gank_io_change_type"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="小视频"
+    android:padding="3dp"
+    android:textColor="@color/colorPrimaryDark"
+    android:textSize="14sp"
+    />
+    <ImageView
+        android:layout_gravity="center_vertical|right"
+        android:id="@+id/iv_item_gank_io_change_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/item_checked"
+        android:layout_marginRight="8dp"
+        />
+</FrameLayout>

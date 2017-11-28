@@ -32,8 +32,12 @@ public class MyApplication extends Application implements Application.ActivityLi
         mActivityList = new ArrayList<>();
         registerActivityLifecycleCallbacks(this);
         String date = SPUtil.getString(this, Constant.LAST_DAILY_DATE);
+        String gank_ioType=SPUtil.getString(this,Constant.LAST_GANK_IO_TYPE);
         if(TextUtils.isEmpty(date)){
             SPUtil.putString(this,"2017_11_24",Constant.LAST_DAILY_DATE);
+        }
+        if(TextUtils.isEmpty(gank_ioType)){
+            SPUtil.putString(this,"iOS",Constant.LAST_GANK_IO_TYPE);
         }
     }
 

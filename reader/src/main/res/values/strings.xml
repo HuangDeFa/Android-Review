@@ -8,4 +8,5 @@
     <string name="menu_copy_link">复制链接</string>
     <string name="menu_open_browser">在浏览器打开</string>
     <string name="menu_download">下载</string>
+    <string name="menu_refresh">刷新</string>
 </resources>

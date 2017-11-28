@@ -210,7 +210,7 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
         }
     }
 
-    static class GankDailyVH extends RecyclerView.ViewHolder {
+   public static class GankDailyVH extends RecyclerView.ViewHolder {
         SparseArray<View> mViewCaches;
 
         public GankDailyVH(View itemView) {

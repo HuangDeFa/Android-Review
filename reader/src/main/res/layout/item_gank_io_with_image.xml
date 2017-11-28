@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="130dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
     android:layout_marginTop="8dp"
@@ -12,25 +12,38 @@
     app:cardCornerRadius="5dp"
     android:foreground="?attr/selectableItemBackgroundBorderless"
     >
-  <TextView
-      android:id="@+id/tv_item_gank_io_normal_content"
-      android:layout_marginTop="5dp"
-      android:layout_marginLeft="3dp"
-      android:layout_marginRight="3dp"
-      android:layout_marginBottom="30dp"
+  <RelativeLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textSize="14sp"
-      android:fontFamily="casual"
-      android:ellipsize="end"
-      tools:text="王尼玛哈哈哈哈哈哈哈哈哈哈hahahahahahahhahahhahahhhhhhhhhhhhhhhhhh王尼玛哈哈哈哈哈哈哈哈哈哈ABDDDDDDDDDDDD"
-      />
+      android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/iv_item_gank_io"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="3dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        tools:src="@mipmap/img_one_bi_one"
+        />
+    <TextView
+        android:id="@+id/tv_item_gank_io_normal_content"
+        android:layout_toLeftOf="@id/iv_item_gank_io"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:fontFamily="casual"
+        android:ellipsize="end"
+        tools:text="王尼玛哈哈哈哈哈哈哈哈哈哈hahahahahahahhahahhahahhhhhhhhhhhhhhhhhh王尼玛哈哈哈哈哈哈哈哈哈哈ABDDDDDDDDDDDD"
+        />
     <TextView
         android:id="@+id/tv_item_gank_io_normal_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="3dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="casual"
@@ -41,10 +54,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:layout_gravity="bottom|right"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/iv_item_gank_io"
         android:layout_marginRight="13dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="casual"
         tools:text="10小时前"
         />
+  </RelativeLayout>
 </android.support.v7.widget.CardView>

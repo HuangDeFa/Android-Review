@@ -23,4 +23,6 @@ public interface Constant {
             "http://ww4.sinaimg.cn/large/7a8aed7bjw1exav03j43nj20hs0qoq79.jpg",
             "http://ww2.sinaimg.cn/large/7a8aed7bgw1exmhnx76z9j20go0dcabp.jpg"
     };
+    String LAST_GANK_IO_TYPE="last_gank_io_type";
+
 }
