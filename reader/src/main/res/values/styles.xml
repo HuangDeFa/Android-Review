@@ -34,4 +34,9 @@
         <!--垂直偏移-->
         <item name="android:dropDownVerticalOffset">50dp</item>
     </style>
+    <style name="PopWindowAnimStyle">
+        <item name="android:popupBackground">#96463f3f</item>
+        <item name="android:windowEnterAnimation">@anim/pop_in_right</item>
+        <item name="android:windowExitAnimation">@anim/pop_out_right</item>
+    </style>
 </resources>

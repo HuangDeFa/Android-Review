@@ -1,8 +1,6 @@
 package com.kenzz.reader.fragment;
 
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
@@ -10,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -165,10 +164,17 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
            mPopupWindow.setContentView(contentView);
            mPopupWindow.setFocusable(true);
            mPopupWindow.setOutsideTouchable(true);
-           mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#96463f3f")));
+           //注意：设置动画时如果动画集合中有Alpha动画 最好放到集合最后执行要不然会出现闪烁。
+           mPopupWindow.setAnimationStyle(R.style.PopWindowAnimStyle);
         }
         if(mPopupWindow.isShowing())return;
-        mPopupWindow.showAsDropDown(mChangeTypeLayout);
+        int[] location=new int[2];
+        //获取控件相对于Window的坐标x,y
+        mChangeTypeLayout.getLocationInWindow(location);
+        //showAtLocation 比showAsDropDown要灵活，第一参数是用来获取Token的并不是意义上的依附或者锚点，
+        //Gravity设置相对于Window的原点坐标系 比如这里Right|Top就设置咯右上角为原点
+        mPopupWindow.showAtLocation(mChangeTypeLayout, Gravity.RIGHT|Gravity.TOP,dpToPx(18),location[1]+dpToPx(20));
+       // mPopupWindow.showAsDropDown(mChangeTypeLayout,-dpToPx(20),0);
     }
 
     private BaseRecyclerViewAdapter gankTypeAdapter=new BaseRecyclerViewAdapter<String,GankDailyAdapter.GankDailyVH>() {
@@ -199,6 +205,14 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
                 @Override
                 public void onClick(View v) {
                     currentType = data;
+                    mTextView.setText(currentType);
+                    mTextView.setScaleX(0);
+                    mTextView.animate()
+                             .scaleX(1)
+                             .rotationY(360)
+                             .setDuration(500)
+                             .start();
+
                     notifyDataSetChanged();
                     mPopupWindow.dismiss();
                     triggerTypeChange();
@@ -219,4 +233,8 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
         }
     }
 
+    private int dpToPx(float dp){
+        float density = getResources().getDisplayMetrics().density;
+        return (int) (density*dp+.5f);
+    }
 }

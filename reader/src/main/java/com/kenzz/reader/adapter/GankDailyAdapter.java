@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.kenzz.reader.Constant;
 import com.kenzz.reader.R;
 import com.kenzz.reader.bean.GankDailyModel;
+import com.kenzz.reader.bean.GankEntity;
 import com.kenzz.reader.utils.ImageLoader;
 import com.kenzz.reader.widget.Banner;
 import com.kenzz.reader.widget.DefaultBannerLoader;
@@ -118,7 +119,15 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
         } else if (title.equals("瞎推荐")) {
             imageView.setImageResource(R.mipmap.home_title_xia);
         }
-
+        holder.getView(R.id.tv_item_gank_daily_title_more)
+                .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mTouchListener!=null){
+                    mTouchListener.onMoreClick(title);
+                }
+            }
+        });
     }
 
     private void bindOneContentView(GankDailyVH holder, int position) {
@@ -132,6 +141,14 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
             int index = mRandom.nextInt(6);
             ImageLoader.LoadImage(imageView, Constant.DAILY_SIX_URLS[index], R.mipmap.img_one_bi_one);
         }
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mTouchListener!=null){
+                    mTouchListener.onClick(model.DataList.get(0),position);
+                }
+            }
+        });
     }
 
     private void bindTwoContentView(GankDailyVH holder, int position) {
@@ -149,6 +166,22 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
             index = mRandom.nextInt(3);
             ImageLoader.LoadImage(imageView1, Constant.DAILY_THREE_URLS[index], R.mipmap.img_one_bi_one);
         }
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mTouchListener!=null){
+                    mTouchListener.onClick(model.DataList.get(0),position);
+                }
+            }
+        });
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mTouchListener!=null){
+                    mTouchListener.onClick(model.DataList.get(1),position);
+                }
+            }
+        });
     }
 
     private void bindThreeContentView(GankDailyVH holder, int position) {
@@ -169,6 +202,14 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
         ImageView imageView= (ImageView) content.getChildAt(0);
         ImageLoader.LoadImage(imageView,defaultImageUrl==null?model.DataList.get(index).url:
                 defaultImageUrl,R.mipmap.img_four_bi_three);
+        content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mTouchListener!=null){
+                    mTouchListener.onClick(model.DataList.get(index),0);
+                }
+            }
+        });
     }
 
     private void bindSixContentView(GankDailyVH holder, int position) {
@@ -227,4 +268,16 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
             return (T) view;
         }
     }
+
+   public interface ItemTouchListener{
+        void onClick(GankEntity.ResultsBean data,int position);
+        void onMoreClick(String type);
+   }
+
+    public void setTouchListener(ItemTouchListener touchListener) {
+        mTouchListener = touchListener;
+    }
+
+    private ItemTouchListener mTouchListener;
+
 }

@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import com.kenzz.reader.Constant;
 import com.kenzz.reader.MyApplication;
 import com.kenzz.reader.R;
+import com.kenzz.reader.activity.WebActivity;
 import com.kenzz.reader.adapter.GankDailyAdapter;
 import com.kenzz.reader.bean.GankDailyEntity;
 import com.kenzz.reader.bean.GankDailyModel;
+import com.kenzz.reader.bean.GankEntity;
 import com.kenzz.reader.http.ApiManager;
 import com.kenzz.reader.http.GankService;
 import com.kenzz.reader.utils.SPUtil;
@@ -130,6 +132,17 @@ public class GankDailyFragment extends BaseFragment {
         if (modelList.size() == 0) {
             showLoadingPage();
         }
+        mAdapter.setTouchListener(new GankDailyAdapter.ItemTouchListener() {
+            @Override
+            public void onClick(GankEntity.ResultsBean data, int position) {
+                WebActivity.startActivity(getActivity(),data.url,data.desc);
+            }
+
+            @Override
+            public void onMoreClick(String type) {
+             //TODO:点击更多 跳转不同的页面
+            }
+        });
     }
 
     @Override

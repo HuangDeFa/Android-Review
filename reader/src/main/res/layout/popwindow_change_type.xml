@@ -2,6 +2,8 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#96463f3f"
     android:layout_height="wrap_content">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_gank_io_pop_window"
