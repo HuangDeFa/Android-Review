@@ -6,10 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.kenzz.reader.activity.OneBookActivity">
+
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/sv_activity_book"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/sv_activity_book"
         >
 
         <LinearLayout
@@ -22,13 +23,21 @@
                 android:id="@+id/fl_activity_book_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/blue_bg"
-                android:paddingBottom="45dp"
                 >
-
+                <ImageView
+                        android:id="@+id/iv_activity_book_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:visibility="visible"
+                        tools:src="@drawable/blue_bg"
+                        />
                 <RelativeLayout
+                    android:id="@+id/rl_activity_book_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:layout_marginBottom="45dp"
                     >
 
                     <ImageView
