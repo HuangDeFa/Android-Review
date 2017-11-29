@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".activity.WebActivity">
         </activity>
+        <activity android:name=".activity.OneBookActivity">
+        </activity>
     </application>
 
 </manifest>

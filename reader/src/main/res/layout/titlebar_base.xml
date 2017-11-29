@@ -31,16 +31,35 @@
             android:clickable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             />
-        <TextView
-            android:id="@+id/tv_toolbar_title"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:textColor="@android:color/white"
-            android:lines="1"
-            android:layout_marginRight="30dp"
-            android:ellipsize="end"
-            android:textSize="18sp"
-            tools:text="This is title"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/tv_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:textColor="@android:color/white"
+                android:lines="1"
+                android:layout_marginRight="30dp"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                tools:text="This is title"/>
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_toolbar_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:textColor="@android:color/white"
+                android:lines="1"
+                android:layout_marginRight="30dp"
+                android:ellipsize="end"
+                android:textSize="10sp"
+                tools:text="This is subtitle"/>
+        </LinearLayout>
     </android.support.v7.widget.Toolbar>
 </LinearLayout>

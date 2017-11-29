@@ -2,6 +2,7 @@ package com.kenzz.reader.http;
 
 import android.text.TextUtils;
 
+import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +40,7 @@ public class ApiManager {
     private static Map<Class,String> baseUrlCache=new HashMap<Class,String>(){{
         put(GankService.class,"http://gank.io/api/");
         put(DownloadService.class,"http://gank.io/api/");
+        put(DouService.class," https://api.douban.com/v2/");
     }};
     private Map<Class,Object> serviceCache=new HashMap<>();
 

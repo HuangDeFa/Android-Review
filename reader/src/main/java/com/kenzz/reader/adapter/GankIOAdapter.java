@@ -1,5 +1,6 @@
 package com.kenzz.reader.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class GankIOAdapter extends BaseRecyclerViewAdapter<GankEntity.ResultsBea
             ImageLoader.LoadImage(imageView,data.images.get(0),R.mipmap.img_one_bi_one);
         }
         contentText.setText(data.desc);
-        userText.setText(data.who);
+        userText.setText(TextUtils.isEmpty(data.who)?"佚名":data.who);
         timeText.setText(formatTime(data.publishedAt));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +118,10 @@ public class GankIOAdapter extends BaseRecyclerViewAdapter<GankEntity.ResultsBea
         }
         int day = now.get(Calendar.DAY_OF_MONTH)-source.get(Calendar.DAY_OF_MONTH);
         if(day>0){
-            return day+"天前";
+            if(day==1) return "昨天";
+            if(day==2) return "前天";
+            return String.format("%s-%s",source.get(Calendar.MONTH)+1,source.get(Calendar.DAY_OF_MONTH));
+            //return day+"天前";
         }
         int hour=now.get(Calendar.HOUR_OF_DAY)-source.get(Calendar.HOUR_OF_DAY);
         if(hour>0){
