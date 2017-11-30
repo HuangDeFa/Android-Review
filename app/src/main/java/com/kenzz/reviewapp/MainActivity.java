@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.kenzz.reviewapp.activity.RemoteViewsActivity;
 import com.kenzz.reviewapp.activity.ServiceActivity;
 import com.kenzz.reviewapp.activity.SkinActivity;
 import com.kenzz.reviewapp.activity.SocketActivity;
+import com.kenzz.reviewapp.activity.SpannableActivity;
 import com.kenzz.reviewapp.activity.ViewLearningActivity;
 import com.kenzz.reviewapp.adapter.ComBaseAdapter;
 import com.kenzz.reviewapp.adapter.ComBaseVH;
@@ -83,6 +85,7 @@ public class MainActivity extends BaseActivity {
         mList.add("SocketDemo");
         mList.add("换肤Demo");
         mList.add("Glide ActivityDemo");
+        mList.add("SpannableString Demo");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -135,6 +138,9 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case 9:
                                 startActivity(new Intent(MainActivity.this, GlideActivity.class));
+                                break;
+                            case 10:
+                                startActivity(new Intent(MainActivity.this,SpannableActivity.class));
                                 break;
                                 default:
                                     break;

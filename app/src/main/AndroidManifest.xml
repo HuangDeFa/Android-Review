@@ -19,8 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-         android:name="com.kenzz.reviewapp.okHttp.MyGlideModule"
-         android:value="GlideModule" />
+            android:name="com.kenzz.reviewapp.okHttp.MyGlideModule"
+            android:value="GlideModule"/>
+
         <activity android:name=".MainActivity">
 
             <!--
@@ -74,6 +75,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.GlideActivity">
+        </activity>
+        <activity android:name=".activity.SpannableActivity">
         </activity>
     </application>
 
