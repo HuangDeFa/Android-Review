@@ -1,25 +1,22 @@
 package com.kenzz.reader;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.kenzz.reader.activity.BaseActivity;
+import com.kenzz.reader.activity.WebActivity;
 import com.kenzz.reader.adapter.MyFragmentAdapter;
 import com.kenzz.reader.fragment.DouFragment;
 import com.kenzz.reader.fragment.GankFragment;
 import com.kenzz.reader.fragment.OneFragment;
-import com.kenzz.reader.utils.StatusBarUtil;
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
+import com.kenzz.reader.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,12 +57,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     private void initView() {
-        mNavigationView.inflateHeaderView(R.layout.nav_page);
+       View navpage= mNavigationView.inflateHeaderView(R.layout.nav_page);
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setAdapter(new MyFragmentAdapter(getSupportFragmentManager(),mFragments));
-
         onClickEvent(ivGank);
+        View.OnClickListener viewAction= view ->{mDrawerLayout.closeDrawer(mNavigationView,true); onNavigationMenuEvent(view); };
+        navpage.findViewById(R.id.nav_about_page).setOnClickListener(viewAction);
+        navpage.findViewById(R.id.nav_github_page).setOnClickListener(viewAction);
+        navpage.findViewById(R.id.nav_home_page).setOnClickListener(viewAction);
+        navpage.findViewById(R.id.nav_bug_page).setOnClickListener(viewAction);
+        navpage.findViewById(R.id.nav_exit_page).setOnClickListener(viewAction);
     }
 
     List<Fragment> mFragments = new ArrayList<>(3);
@@ -176,5 +178,23 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_page_menu,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void onNavigationMenuEvent(View view){
+        switch (view.getId()){
+            case R.id.nav_exit_page:
+                MyApplication.getInstance().exitApp();
+                break;
+            case R.id.nav_about_page:
+            case R.id.nav_bug_page:
+                ToastUtil.showShortToast(this,"coming soon!!");
+                break;
+            case R.id.nav_github_page:
+                WebActivity.startActivity(this,"https://github.com/","GitHub");
+                break;
+            case R.id.nav_home_page:
+                WebActivity.startActivity(this,"https://github.com/HuangDeFa/Android-Review/tree/master/reader","GitHub");
+                break;
+        }
     }
 }

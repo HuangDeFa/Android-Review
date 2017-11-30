@@ -74,6 +74,7 @@ public class ApiManager {
             client = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(10,TimeUnit.SECONDS)
+                    .addInterceptor(new ProcessInterceptor())
                     .build();
         }
         return client;

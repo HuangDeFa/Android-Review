@@ -60,6 +60,7 @@ public class WebActivity extends BaseActivity {
                 if(newProgress>=90){
                     mTextView.setText(title);
                 }else {
+                    if(mTextView!=null)
                     mTextView.setText("加载......");
                 }
             }
@@ -68,6 +69,11 @@ public class WebActivity extends BaseActivity {
         settings.setDisplayZoomControls(false);
         mTextView.setText("加载......");
         mWebView.loadUrl(url);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void initData() {
