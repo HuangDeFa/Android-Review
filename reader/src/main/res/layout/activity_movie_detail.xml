@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kenzz.reader.activity.MovieDetailActivity">
+     <android.support.v4.widget.NestedScrollView
+            android:id="@+id/sv_activity_book"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <LinearLayout
+                android:id="@+id/ll_movie_activity_content_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+                <FrameLayout
+                    android:id="@+id/fl_activity_movie_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <ImageView
+                        android:id="@+id/iv_activity_movie_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:visibility="visible"
+                        tools:src="@drawable/blue_bg"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/rl_activity_movie_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="?attr/actionBarSize"
+                        android:layout_marginBottom="45dp"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv_activity_movie"
+                            android:layout_width="wrap_content"
+                            android:layout_height="150dp"
+                            android:layout_marginLeft="25dp"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/img_default_book"
+                            android:transitionName="share_view"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@id/iv_activity_book"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_movie_activity_rate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/white"
+                                tools:text="评分：2.8 1200人评分"
+                                />
+
+                            <TextView
+                                android:id="@+id/tv_movie_activity_director"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/white"
+                                tools:text="导演：王尼玛"
+                                />
+
+                            <TextView
+                                android:id="@+id/tv_movie_activity_cast"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/white"
+                                tools:text="主演：郭德纲/于谦"
+                                />
+
+                            <TextView
+                                android:id="@+id/tv_movie_activity_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/white"
+                                tools:text="类型：脑残剧情"
+                                />
+                            <TextView
+                                android:id="@+id/tv_movie_activity_showtime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/white"
+                                tools:text="上映时间：2017"
+                                />
+                            <TextView
+                                android:id="@+id/tv_movie_activity_country"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/white"
+                                tools:text="制片国家/地区：中国大陆"
+                                />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    >
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="另称"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_movie_activity_names"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.2"
+                    android:padding="10dp"
+                    android:textSize="12sp"
+                    tools:text="《百年孤独》是魔幻现实主义文学的代表作，描写了布恩迪亚家族七代人的传奇故事，以及加勒比海沿岸小镇马孔多的百年兴衰，反映了拉丁美洲一个世纪以来风云变幻的历史。作品融入神话传说、民间故事、宗教典故等神秘因素，巧妙地糅合了现实与虚幻，展现出一个瑰丽的想象世界，成为20世纪最重要的经典文学巨著之一。1982年加西亚•马尔克斯获得诺贝尔文学奖，奠定世界级文学大师的地位，很大程度上乃是凭借《百年孤独》的巨大影响。"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    >
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:drawableLeft="@drawable/title_tag_border"
+                        android:text="剧情简介"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_movie_activity_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.2"
+                    android:padding="10dp"
+                    android:textSize="12sp"
+                    tools:text="加西亚•马尔克斯（Gabriel García Márquez）1927年出生于哥伦比亚马格达莱纳海滨小镇阿拉卡塔卡。童年与外祖父母一起生活。1936年随父母迁居苏克雷。1947年考入波哥大国立大学。1948年因内战辍学，进入报界。五十年代开始发表文学作品。六十年代初移居墨西哥。1967年出版《百年孤独》。1982年获诺贝尔文学奖。"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    >
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="导演 &amp; 演员"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/ll_title_bar"
+            layout="@layout/titlebar_base"
+            android:visibility="visible"
+            />
+</android.support.constraint.ConstraintLayout>

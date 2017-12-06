@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    >
+<ImageView
+    android:contentDescription="default movie image"
+    android:id="@+id/iv_item_dou_movie_head"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:scaleType="centerCrop"
+    tools:src="@mipmap/ic_nav_meizi"
+    android:layout_marginLeft="3dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    />
+    <TextView
+        android:id="@+id/tv_item_dou_movie_top250"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_item_dou_movie_head"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="8dp"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
+        android:text="豆瓣Top250"
+        android:textStyle="italic"
+        android:fontFamily="cursive"
+        />
+    <TextView
+        android:layout_below="@id/tv_item_dou_movie_top250"
+        android:layout_toRightOf="@id/iv_item_dou_movie_head"
+        android:layout_marginLeft="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textStyle="italic"
+        android:text="人生如戏，戏如人生"
+        />
+    <ImageView
+        android:layout_marginRight="10dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/home_arrow_right"
+        />
+</RelativeLayout>

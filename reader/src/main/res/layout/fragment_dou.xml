@@ -2,12 +2,21 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context="com.kenzz.reader.fragment.DouFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRL_dou_movie"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        app:srlEnableRefresh="false"
+        app:srlEnableAutoLoadmore="true"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_dou_movie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </FrameLayout>

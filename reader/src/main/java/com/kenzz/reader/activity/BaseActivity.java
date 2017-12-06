@@ -76,7 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             return;
         }
-        transparentStatusBar();
+        setFullScreen();
         View decorView = getWindow().getDecorView();
         ViewGroup rootView = decorView.findViewById(android.R.id.content);
         View firstChild = rootView.getChildAt(0);

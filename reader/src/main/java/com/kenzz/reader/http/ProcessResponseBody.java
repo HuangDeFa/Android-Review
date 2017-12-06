@@ -43,29 +43,29 @@ public class ProcessResponseBody extends ResponseBody {
     public BufferedSource source() {
         if(mBufferedSource==null) {
             mBufferedSource = Okio.buffer(new ProgressSource(mResponseBody.source()
-                    ,mResponseBody.contentLength()));
+                    ));
         }
         return mBufferedSource;
     }
 
-    static class ProgressSource extends ForwardingSource{
-        private long totalLength;
+     class ProgressSource extends ForwardingSource{
+        //private long totalLength;
         private long totalRead;
 
-        public ProgressSource(Source delegate,long totalLength) {
+        public ProgressSource(Source delegate) {
             super(delegate);
-            this.totalLength=totalLength;
         }
 
         @Override
         public long read(Buffer sink, long byteCount) throws IOException {
             long readCount = delegate().read(sink,byteCount);
+            long fullLength=mResponseBody.contentLength();
             if(readCount==-1){
-                totalRead=totalLength;
+                totalRead=fullLength;
             }else {
                 totalRead+=readCount;
             }
-            float process = totalRead/totalLength;
+            float process = totalRead/fullLength;
             Log.d("ProcessInterceptor","DownloadProcess--> "+process+ "%");
             return readCount;
         }

@@ -118,6 +118,11 @@ public class GankDailyFragment extends BaseFragment {
                         SPUtil.putStrings(MyApplication.getInstance(),Constant.BANNERURL,list);
                     }
                 })
+                .doOnError(e->{
+                    if(mRecyclerView!=null){
+                        showErrorPage();
+                    }
+                })
                 .subscribe(x -> bannerDatas.add(x.url));
     }
 
@@ -224,9 +229,13 @@ public class GankDailyFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
-                        if (mRecyclerView != null) {
-                            showErrorPage();
+                        try {
+                            e.printStackTrace();
+                            if (mRecyclerView != null) {
+                                showErrorPage();
+                            }
+                        }catch (Exception ex){
+                            ex.printStackTrace();
                         }
                     }
 

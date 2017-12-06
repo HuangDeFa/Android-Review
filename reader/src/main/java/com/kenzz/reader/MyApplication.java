@@ -39,6 +39,9 @@ public class MyApplication extends Application implements Application.ActivityLi
         if(TextUtils.isEmpty(gank_ioType)){
             SPUtil.putString(this,"iOS",Constant.LAST_GANK_IO_TYPE);
         }
+        defaultExceptionHandler=Thread.getDefaultUncaughtExceptionHandler();
+        mExceptionHandler = new MyExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(mExceptionHandler);
     }
 
     public synchronized void exitApp(){
@@ -84,4 +87,30 @@ public class MyApplication extends Application implements Application.ActivityLi
     public void onActivityDestroyed(Activity activity) {
         mActivityList.remove(activity);
     }
+
+    private class MyExceptionHandler implements Thread.UncaughtExceptionHandler{
+
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
+           if(!handlerException(t,e)){
+               if(defaultExceptionHandler!=null){
+                   defaultExceptionHandler.uncaughtException(t,e);
+               }
+           }
+        }
+    }
+
+    /**
+     * TODO 处理异常
+     * @param t 抛出异常的线程
+     * @param e 异常对象
+     * @return 返回值，true表示已处理 false未处理将交由系统处理
+     */
+    private boolean handlerException(Thread t,Throwable e){
+        e.printStackTrace();
+        return true;
+    }
+
+    private MyExceptionHandler mExceptionHandler;
+    private Thread.UncaughtExceptionHandler defaultExceptionHandler;
 }

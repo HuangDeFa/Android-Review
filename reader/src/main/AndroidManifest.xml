@@ -27,6 +27,10 @@
         </activity>
         <activity android:name=".activity.OneBookActivity">
         </activity>
+        <activity android:name=".activity.MovieTop250Activity">
+        </activity>
+        <activity android:name=".activity.MovieDetailActivity">
+        </activity>
     </application>
 
 </manifest>
