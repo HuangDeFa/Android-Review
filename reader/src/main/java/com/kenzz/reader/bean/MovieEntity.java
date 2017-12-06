@@ -53,18 +53,6 @@ public class MovieEntity {
         public String id;
     }
 
-
-    public static class Directors {
-        @SerializedName("alt")
-        public String alt;
-        @SerializedName("avatars")
-        public Avatars avatars;
-        @SerializedName("name")
-        public String name;
-        @SerializedName("id")
-        public String id;
-    }
-
     public static class Images {
         @SerializedName("small")
         public String small;
@@ -74,7 +62,8 @@ public class MovieEntity {
         public String medium;
     }
 
-    public static class Subject {
+    public static class Subject
+    {
         @SerializedName("rating")
         public Rating rating;
         @SerializedName("genres")
@@ -90,7 +79,7 @@ public class MovieEntity {
         @SerializedName("subtype")
         public String subtype;
         @SerializedName("directors")
-        public List<Directors> directors;
+        public List<Casts> directors;
         @SerializedName("year")
         public String year;
         @SerializedName("images")

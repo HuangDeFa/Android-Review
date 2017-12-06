@@ -1,10 +1,12 @@
 package com.kenzz.reader.http;
 
+import com.kenzz.reader.bean.MovieDetailEntity;
 import com.kenzz.reader.bean.MovieEntity;
 import com.kenzz.reader.bean.OneBookEntity;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -21,4 +23,7 @@ public interface DouService {
 
  @GET("movie/in_theaters")
  Observable<MovieEntity> getMovieInThread(@Query("start")int offset,@Query("count")int pageSize);
+
+ @GET("movie/subject/{subjectId}")
+ Observable<MovieDetailEntity> getMovieDetail(@Path("subjectId")String subjectId);
 }

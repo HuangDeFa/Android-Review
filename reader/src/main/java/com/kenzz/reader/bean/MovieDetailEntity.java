@@ -58,7 +58,7 @@ public class MovieDetailEntity {
     @SerializedName("subtype")
     public String subtype;
     @SerializedName("directors")
-    public List<Directors> directors;
+    public List<Casts> directors;
     @SerializedName("comments_count")
     public int comments_count;
     @SerializedName("ratings_count")
@@ -96,17 +96,6 @@ public class MovieDetailEntity {
     }
 
     public static class Casts {
-        @SerializedName("alt")
-        public String alt;
-        @SerializedName("avatars")
-        public Avatars avatars;
-        @SerializedName("name")
-        public String name;
-        @SerializedName("id")
-        public String id;
-    }
-
-    public static class Directors {
         @SerializedName("alt")
         public String alt;
         @SerializedName("avatars")

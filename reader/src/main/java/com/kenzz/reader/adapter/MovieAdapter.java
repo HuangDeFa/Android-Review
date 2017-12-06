@@ -86,6 +86,9 @@ public class MovieAdapter extends BaseRecyclerViewAdapter<MovieViewModel,GankDai
             @Override
             public void onClick(View v) {
                 if(mListener!=null){
+                    if(position!=0){
+                        v=holder.getView(R.id.iv_item_dou_movie);
+                    }
                     mListener.onItemClick(v,position);
                 }
             }

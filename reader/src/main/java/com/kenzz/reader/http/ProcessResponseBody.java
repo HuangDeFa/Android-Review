@@ -59,7 +59,7 @@ public class ProcessResponseBody extends ResponseBody {
         @Override
         public long read(Buffer sink, long byteCount) throws IOException {
             long readCount = delegate().read(sink,byteCount);
-            long fullLength=mResponseBody.contentLength();
+            long fullLength=contentLength();
             if(readCount==-1){
                 totalRead=fullLength;
             }else {

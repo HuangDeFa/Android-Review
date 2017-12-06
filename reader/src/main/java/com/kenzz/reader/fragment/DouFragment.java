@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kenzz.reader.R;
+import com.kenzz.reader.activity.MovieDetailActivity;
 import com.kenzz.reader.activity.MovieTop250Activity;
 import com.kenzz.reader.adapter.MovieAdapter;
 import com.kenzz.reader.bean.MovieEntity;
@@ -67,6 +68,8 @@ public class DouFragment extends BaseFragment implements OnLoadmoreListener {
            public void onItemClick(View view, int position) {
               if(position==0){
                   MovieTop250Activity.startActivity(getActivity());
+              }else {
+                  MovieDetailActivity.startActivity(getActivity(),mMovieViewModels.get(position-1),view);
               }
            }
        });
