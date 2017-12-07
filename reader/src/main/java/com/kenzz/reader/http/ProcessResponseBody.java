@@ -59,13 +59,13 @@ public class ProcessResponseBody extends ResponseBody {
         @Override
         public long read(Buffer sink, long byteCount) throws IOException {
             long readCount = delegate().read(sink,byteCount);
-            long fullLength=contentLength();
+            long fullLength=mResponseBody.contentLength();
             if(readCount==-1){
                 totalRead=fullLength;
             }else {
                 totalRead+=readCount;
             }
-            float process = totalRead/fullLength;
+            int process = (int)(100f*totalRead/fullLength);
             Log.d("ProcessInterceptor","DownloadProcess--> "+process+ "%");
             return readCount;
         }
