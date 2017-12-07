@@ -2,11 +2,15 @@ package com.kenzz.reader.http;
 
 import android.text.TextUtils;
 
+import com.kenzz.reader.MyApplication;
+
+import java.io.File;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -36,7 +40,7 @@ public class ApiManager {
     }
 
     private OkHttpClient client;
-
+    private Cache mCache;
     private static Map<Class,String> baseUrlCache=new HashMap<Class,String>(){{
         put(GankService.class,"http://gank.io/api/");
         put(DownloadService.class,"http://gank.io/api/");
@@ -75,9 +79,19 @@ public class ApiManager {
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(10,TimeUnit.SECONDS)
                     .addInterceptor(new ProcessInterceptor())
+                    .addNetworkInterceptor(new CacheInterceptor())
+                    .cache(getCache())
                     .build();
         }
         return client;
+    }
+
+    private Cache getCache() {
+        if(mCache==null){
+            File cacheFile=new File(MyApplication.getInstance().getExternalCacheDir(),"readerCache");
+            mCache=new Cache(cacheFile,50*1024*1024);
+        }
+        return mCache;
     }
 
     private <T> Object createDownloadService(Class<T> clazz) {

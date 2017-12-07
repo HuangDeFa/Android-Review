@@ -237,4 +237,11 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
         float density = getResources().getDisplayMetrics().density;
         return (int) (density*dp+.5f);
     }
+
+    @Override
+    protected void onErrorRefresh() {
+        super.onErrorRefresh();
+        int page = pageIndexMap.get(currentType)==null?1:pageIndexMap.get(currentType);
+        loadData(page);
+    }
 }

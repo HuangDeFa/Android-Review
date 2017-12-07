@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Process;
 import android.text.TextUtils;
 
+import com.kenzz.reader.utils.NetWorkUtil;
 import com.kenzz.reader.utils.SPUtil;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class MyApplication extends Application implements Application.ActivityLi
         defaultExceptionHandler=Thread.getDefaultUncaughtExceptionHandler();
         mExceptionHandler = new MyExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(mExceptionHandler);
+        NetWorkUtil.initNetWorkListener(this);
     }
 
     public synchronized void exitApp(){

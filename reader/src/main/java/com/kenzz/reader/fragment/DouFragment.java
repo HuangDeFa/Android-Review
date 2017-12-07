@@ -118,4 +118,10 @@ public class DouFragment extends BaseFragment implements OnLoadmoreListener {
          offset=offset+mMovieViewModels.size();
          loadData();
     }
+
+    @Override
+    protected void onErrorRefresh() {
+        super.onErrorRefresh();
+        loadData();
+    }
 }

@@ -104,8 +104,8 @@ public class OneContentFragment extends BaseFragment implements OnRefreshListene
                 .getBooksByPage(contentType,pageOffset)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(x->{showErrorPage();})
                 .doOnSubscribe(this::addDisable)
+                .doOnError(x->{showErrorPage();})
                 .subscribe(x->{
                    if(x.books!=null && x.books.size()>0){
                        if(pageOffset==0){
@@ -120,7 +120,7 @@ public class OneContentFragment extends BaseFragment implements OnRefreshListene
                    }
                    mRefreshLayout.finishRefresh();
                    mRefreshLayout.finishLoadmore();
-                   hideErrorPage();
+                   hideLoadingPage();
                 });
     }
 
@@ -134,5 +134,11 @@ public class OneContentFragment extends BaseFragment implements OnRefreshListene
     public void onLoadmore(RefreshLayout refreshlayout) {
      pageOffset=pageOffset+mModelList.size();
      loadData();
+    }
+
+    @Override
+    protected void onErrorRefresh() {
+        super.onErrorRefresh();
+        loadData();
     }
 }

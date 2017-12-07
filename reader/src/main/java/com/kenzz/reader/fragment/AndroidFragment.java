@@ -137,4 +137,10 @@ public class AndroidFragment extends BaseFragment implements OnRefreshListener, 
         ++currentPage;
         loadData();
     }
+
+    @Override
+    protected void onErrorRefresh() {
+        super.onErrorRefresh();
+        loadData();
+    }
 }
