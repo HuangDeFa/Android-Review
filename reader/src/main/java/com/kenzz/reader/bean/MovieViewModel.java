@@ -13,8 +13,8 @@ import java.util.List;
 public class MovieViewModel implements Parcelable {
     public String imageUrl;
     public String title;
-    public String directors;
-    public String casts;
+    public String directors="";
+    public String casts="";
     public String type;
     public String rate;
     public String year;
@@ -71,6 +71,7 @@ public class MovieViewModel implements Parcelable {
             sb.append(cast.name);
             sb.append("/");
         }
+        if(sb.length()>0)
         model.casts = sb.subSequence(0,sb.length()-1).toString();
         sb=new StringBuilder();
         for (String genre : subject.genres) {

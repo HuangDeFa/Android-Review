@@ -2,6 +2,7 @@ package com.kenzz.reader.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class GankDailyEntity {
     public boolean error;
     public ResultsBean results;
     public List<String> category;
-    public static class ResultsBean {
+    public static class ResultsBean implements Serializable{
         @SerializedName("Android")
         public List<GankEntity.ResultsBean> Android;
         @SerializedName("休息视频")

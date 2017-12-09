@@ -67,12 +67,9 @@ public class GankIOAdapter extends BaseRecyclerViewAdapter<GankEntity.ResultsBea
         contentText.setText(data.desc);
         userText.setText(TextUtils.isEmpty(data.who)?"佚名":data.who);
         timeText.setText(formatTime(data.publishedAt));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener!=null){
-                    mListener.onClick(v,position);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if(mListener!=null){
+                mListener.onClick(v,position);
             }
         });
     }

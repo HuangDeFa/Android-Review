@@ -75,24 +75,20 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
      mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
      mRecyclerView.setItemAnimator(new DefaultItemAnimator());
      List<GankEntity.ResultsBean> list = dataList.get(currentType);
-     if(list==null)showLoadingPage();
+     if(list==null){
+         if(checkNetConnected())
+         showLoadingPage();
+         else showErrorPage();
+     }
      mAdapter = new GankIOAdapter(list);
-     mAdapter.setListener(new GankIOAdapter.OnClickListener() {
-         @Override
-         public void onClick(View view, int position) {
-             GankEntity.ResultsBean data = dataList.get(currentType).get(position);
-             WebActivity.startActivity(getActivity(),data.url,data.desc);
-         }
+     mAdapter.setListener((view, position) -> {
+         GankEntity.ResultsBean data = dataList.get(currentType).get(position);
+         WebActivity.startActivity(getActivity(),data.url,data.desc);
      });
      mRecyclerView.setAdapter(mAdapter);
      mRefreshLayout.setOnLoadmoreListener(this);
      mTextView.setText(currentType);
-     mChangeTypeLayout.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-          showPopWindow();
-         }
-     });
+     mChangeTypeLayout.setOnClickListener(v -> showPopWindow());
     }
 
     @Override
@@ -105,6 +101,7 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
     }
 
     private void loadData(int page){
+        if(!checkNetConnected())return;
         ApiManager.getInstance().getService(GankService.class)
                 .getGankDayByPage(currentType,page)
                 .subscribeOn(Schedulers.io())
@@ -140,6 +137,10 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
+        if(!checkNetConnected()){
+            mRefreshLayout.finishLoadmore();
+            return;
+        }
         int page = pageIndexMap.get(currentType)==null?1:pageIndexMap.get(currentType);
         loadData(++page);
         pageIndexMap.put(currentType,page);
@@ -201,22 +202,19 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
                 imageView.setVisibility(View.GONE);
             }
             textView.setText(data);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    currentType = data;
-                    mTextView.setText(currentType);
-                    mTextView.setScaleX(0);
-                    mTextView.animate()
-                             .scaleX(1)
-                             .rotationY(360)
-                             .setDuration(500)
-                             .start();
+            holder.itemView.setOnClickListener(v -> {
+                currentType = data;
+                mTextView.setText(currentType);
+                mTextView.setScaleX(0);
+                mTextView.animate()
+                         .scaleX(1)
+                         .rotationY(360)
+                         .setDuration(500)
+                         .start();
 
-                    notifyDataSetChanged();
-                    mPopupWindow.dismiss();
-                    triggerTypeChange();
-                }
+                notifyDataSetChanged();
+                mPopupWindow.dismiss();
+                triggerTypeChange();
             });
         }
     };
@@ -225,7 +223,7 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
     private void triggerTypeChange() {
         List<GankEntity.ResultsBean> list = dataList.get(currentType);
         int page = pageIndexMap.get(currentType)==null?1:pageIndexMap.get(currentType);
-        if(list==null){
+        if(list==null && checkNetConnected()){
             showLoadingPage();
             loadData(page);
         }else{
@@ -240,6 +238,7 @@ public class GankIOFragment extends BaseFragment implements OnLoadmoreListener {
 
     @Override
     protected void onErrorRefresh() {
+        if(!checkNetConnected())return;
         super.onErrorRefresh();
         int page = pageIndexMap.get(currentType)==null?1:pageIndexMap.get(currentType);
         loadData(page);

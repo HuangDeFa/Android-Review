@@ -138,15 +138,12 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
         if (model.DataList.get(0).type.equals("福利")) {
             ImageLoader.LoadImage(imageView, model.DataList.get(0).url, R.mipmap.img_one_bi_one);
         }else {
-            int index = mRandom.nextInt(6);
-            ImageLoader.LoadImage(imageView, Constant.DAILY_SIX_URLS[index], R.mipmap.img_one_bi_one);
+             int index =mRandom.nextInt(6);
+            ImageLoader.LoadImage(imageView,generateImageUrl(holder.itemView,Constant.DAILY_SIX_URLS[index]), R.mipmap.img_one_bi_one);
         }
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mTouchListener!=null){
-                    mTouchListener.onClick(model.DataList.get(0),position);
-                }
+        imageView.setOnClickListener(v -> {
+            if(mTouchListener!=null){
+                mTouchListener.onClick(model.DataList.get(0),position);
             }
         });
     }
@@ -161,25 +158,19 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
             ImageLoader.LoadImage(imageView, model.DataList.get(0).url, R.mipmap.img_one_bi_one);
             ImageLoader.LoadImage(imageView1, model.DataList.get(1).url, R.mipmap.img_one_bi_one);
         }else {
-            int index = mRandom.nextInt(3);
-            ImageLoader.LoadImage(imageView, Constant.DAILY_THREE_URLS[index], R.mipmap.img_one_bi_one);
+            int index =mRandom.nextInt(3);
+            ImageLoader.LoadImage(imageView,generateImageUrl(textView,Constant.DAILY_THREE_URLS[index]), R.mipmap.img_one_bi_one);
             index = mRandom.nextInt(3);
-            ImageLoader.LoadImage(imageView1, Constant.DAILY_THREE_URLS[index], R.mipmap.img_one_bi_one);
+            ImageLoader.LoadImage(imageView1,generateImageUrl(holder.itemView,Constant.DAILY_THREE_URLS[index]), R.mipmap.img_one_bi_one);
         }
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mTouchListener!=null){
-                    mTouchListener.onClick(model.DataList.get(0),position);
-                }
+        imageView.setOnClickListener(v -> {
+            if(mTouchListener!=null){
+                mTouchListener.onClick(model.DataList.get(0),position);
             }
         });
-        imageView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mTouchListener!=null){
-                    mTouchListener.onClick(model.DataList.get(1),position);
-                }
+        imageView1.setOnClickListener(v -> {
+            if(mTouchListener!=null){
+                mTouchListener.onClick(model.DataList.get(1),position);
             }
         });
     }
@@ -200,14 +191,11 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
     private void setContentView(ViewGroup content, int index, GankDailyModel model, String defaultImageUrl){
         ((TextView) content.getChildAt(1)).setText(model.DataList.get(index).desc);
         ImageView imageView= (ImageView) content.getChildAt(0);
-        ImageLoader.LoadImage(imageView,defaultImageUrl==null?model.DataList.get(index).url:
+        ImageLoader.LoadImage(imageView,generateImageUrl(content,defaultImageUrl)==null?model.DataList.get(index).url:
                 defaultImageUrl,R.mipmap.img_four_bi_three);
-        content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mTouchListener!=null){
-                    mTouchListener.onClick(model.DataList.get(index),0);
-                }
+        content.setOnClickListener((View v) -> {
+            if(mTouchListener!=null){
+                mTouchListener.onClick(model.DataList.get(index),0);
             }
         });
     }
@@ -235,6 +223,19 @@ public class GankDailyAdapter extends BaseRecyclerViewAdapter<GankDailyModel, Ga
         content = holder.getView(R.id.ly6_item_gank_daily_content_six);
         setContentView(content,5,model,isMeizi?null:Constant.DAILY_SIX_URLS[mRandom.nextInt(6)]);
     }
+
+    private String generateImageUrl(View imageView,String defaultUrl){
+        if(TextUtils.isEmpty(defaultUrl)) return null;
+        String url;
+        if(imageView.getTag()==null){
+            imageView.setTag(defaultUrl);
+            url =defaultUrl;
+        }else {
+            url = (String) imageView.getTag();
+        }
+        return url;
+    }
+
 
     @Override
     public int getItemViewType(int position) {

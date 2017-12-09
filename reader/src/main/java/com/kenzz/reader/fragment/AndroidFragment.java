@@ -64,24 +64,23 @@ public class AndroidFragment extends BaseFragment implements OnRefreshListener, 
       mRecyclerView.setAdapter(mAdapter);
       mRecyclerView.setVerticalScrollBarEnabled(true);
       mRecyclerView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
-      mAdapter.setListener(new GankIOAdapter.OnClickListener() {
-          @Override
-          public void onClick(View view, int position) {
-              GankEntity.ResultsBean data = dataList.get(position);
-              WebActivity.startActivity(getActivity(),data.url,data.desc);
-          }
+      mAdapter.setListener((view, position) -> {
+          GankEntity.ResultsBean data = dataList.get(position);
+          WebActivity.startActivity(getActivity(),data.url,data.desc);
       });
       if(dataList.size()==0){
+          if(checkNetConnected())
           showLoadingPage();
+          else showErrorPage();
       }
-
       mRefreshLayout.setOnRefreshListener(this);
       mRefreshLayout.setOnLoadmoreListener(this);
     }
 
     @Override
     protected void onLazyLoad() {
-       loadData();
+       if(checkNetConnected())
+           loadData();
     }
 
     private void loadData(){
@@ -97,6 +96,9 @@ public class AndroidFragment extends BaseFragment implements OnRefreshListener, 
                         mRefreshLayout.finishRefresh();
                     }
                     ToastUtil.showShortToast(getContext(),x.getMessage());
+                })
+                .doOnComplete(()->{
+                 ToastUtil.showShortToast(getContext(),"Complete");
                 })
                 .subscribe(x->{
                     if(x.error){
@@ -128,18 +130,27 @@ public class AndroidFragment extends BaseFragment implements OnRefreshListener, 
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        if(!checkNetConnected()){
+            mRefreshLayout.finishRefresh();
+            return;
+        }
         currentPage = 1;
         loadData();
     }
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
+        if(!checkNetConnected()){
+            mRefreshLayout.finishLoadmore();
+            return;
+        }
         ++currentPage;
         loadData();
     }
 
     @Override
     protected void onErrorRefresh() {
+        if(!checkNetConnected())return;
         super.onErrorRefresh();
         loadData();
     }

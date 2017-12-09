@@ -80,17 +80,14 @@ public class MovieAdapter extends BaseRecyclerViewAdapter<MovieViewModel,GankDai
 
         }else {
            ImageView imageView= holder.getView(R.id.iv_item_dou_movie_head);
-           ImageLoader.LoadImage(imageView,R.mipmap.ic_nav_meizi,R.mipmap.ic_nav_meizi);
+           ImageLoader.LoadImage(imageView,R.mipmap.ic_nav_meizi,R.mipmap.ic_nav_meizi,50,50);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener!=null){
-                    if(position!=0){
-                        v=holder.getView(R.id.iv_item_dou_movie);
-                    }
-                    mListener.onItemClick(v,position);
+        holder.itemView.setOnClickListener(v -> {
+            if(mListener!=null){
+                if(position!=0){
+                    v=holder.getView(R.id.iv_item_dou_movie);
                 }
+                mListener.onItemClick(v,position);
             }
         });
     }

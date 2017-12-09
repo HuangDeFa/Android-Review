@@ -198,29 +198,26 @@ public class MovieDetailActivity extends BaseActivity {
         country.setText("制片国家/地区：");
 
         ImageLoader.LoadImageAsBackground(backgroundImage,mMovieViewModel.imageUrl,R.drawable.blue_bg);
-        mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(!hasSetBackgroundImage){
-                    final Drawable drawable = backgroundImage.getDrawable();
-                    Drawable imageDrawable;
-                    if(drawable instanceof BitmapDrawable){
-                      imageDrawable = new BitmapDrawable(getResources(),((BitmapDrawable)drawable).getBitmap());
-                    }else {
-                        Bitmap bitmap=Bitmap.createBitmap(drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                        drawable.draw(new Canvas(bitmap));
-                        imageDrawable = new BitmapDrawable(getResources(),bitmap);
-                    }
-                    titleBarLayout.setBackground(imageDrawable);
-                    hasSetBackgroundImage =true;
-                }
-                float alpha = scrollY*1.0f/(titleBarHeight+statusBarHeight);
-                alpha = alpha*255;
-                if(alpha>=255f){
-                    titleBarLayout.getBackground().setAlpha(255);
+        mNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if(!hasSetBackgroundImage){
+                final Drawable drawable = backgroundImage.getDrawable();
+                Drawable imageDrawable;
+                if(drawable instanceof BitmapDrawable){
+                  imageDrawable = new BitmapDrawable(getResources(),((BitmapDrawable)drawable).getBitmap());
                 }else {
-                    titleBarLayout.getBackground().setAlpha((int)alpha);
+                    Bitmap bitmap=Bitmap.createBitmap(drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    drawable.draw(new Canvas(bitmap));
+                    imageDrawable = new BitmapDrawable(getResources(),bitmap);
                 }
+                titleBarLayout.setBackground(imageDrawable);
+                hasSetBackgroundImage =true;
+            }
+            float alpha = scrollY*1.0f/(titleBarHeight+statusBarHeight);
+            alpha = alpha*255;
+            if(alpha>=255f){
+                titleBarLayout.getBackground().setAlpha(255);
+            }else {
+                titleBarLayout.getBackground().setAlpha((int)alpha);
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
@@ -291,12 +288,7 @@ public class MovieDetailActivity extends BaseActivity {
             type.setText(typeValue);
             ImageLoader.LoadImage(imageView,data.cast.avatars.small,R.drawable.blue_bg);
             name.setText(data.cast.name);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    WebActivity.startActivity(MovieDetailActivity.this,data.cast.alt,data.cast.name);
-                }
-            });
+            holder.itemView.setOnClickListener(v -> WebActivity.startActivity(MovieDetailActivity.this,data.cast.alt,data.cast.name));
         }
     }
 }
