@@ -78,6 +78,10 @@
         </activity>
         <activity android:name=".activity.SpannableActivity">
         </activity>
+        <activity android:name=".activity.WebActivity">
+        </activity>
+        <activity android:name=".activity.CameraActivity">
+        </activity>
     </application>
 
 </manifest>
