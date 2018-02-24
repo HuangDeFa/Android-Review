@@ -51,7 +51,7 @@ public class OneFragment extends BaseFragment {
         fragments.add(OneContentFragment.newInstance("生活"));
         mFragmentAdapter = new MyFragmentAdapter(getChildFragmentManager(), fragments, Arrays.asList(titles));
         mTabLayout.setupWithViewPager(mViewPager);
-        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(mFragmentAdapter);
     }
 

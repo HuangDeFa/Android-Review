@@ -4,12 +4,14 @@ package com.kenzz.reader.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.kenzz.reader.R;
 import com.kenzz.reader.activity.WelfareActivity;
 import com.kenzz.reader.adapter.WelfareAdapter;
@@ -28,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -70,18 +71,29 @@ public class WelfareFragment extends BaseFragment implements OnRefreshListener, 
                 .setOnRefreshListener(this)
                 .setOnLoadmoreListener(this);
         if(dataList.size()==0){
+            if(checkNetConnected())
             showLoadingPage();
+            else
+                showErrorPage();
         }else {
             mWelfareAdapter.updateDataList(dataList);
         }
-        mWelfareAdapter.setWelfareListener(new WelfareAdapter.WelfareAdapterListener() {
+        mWelfareAdapter.setWelfareListener((view, position) -> {
+            ArrayList<Map.Entry<String,String>> urls=new ArrayList<>();
+            for (GankEntity.ResultsBean resultsBean : dataList) {
+                urls.add(new AbstractMap.SimpleEntry<>(resultsBean.url,resultsBean.desc));
+            }
+            WelfareActivity.startActivity(getActivity(),urls,position);
+        });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View view, int position) {
-                ArrayList<Map.Entry<String,String>> urls=new ArrayList<>();
-                for (GankEntity.ResultsBean resultsBean : dataList) {
-                    urls.add(new AbstractMap.SimpleEntry<String, String>(resultsBean.url,resultsBean.desc));
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState==RecyclerView.SCROLL_STATE_IDLE){
+                    Glide.with(getContext()).resumeRequests();
+                }else {
+                    Glide.with(getContext()).pauseRequests();
                 }
-                WelfareActivity.startActivity(getActivity(),urls,position);
             }
         });
     }
@@ -89,6 +101,7 @@ public class WelfareFragment extends BaseFragment implements OnRefreshListener, 
     @Override
     protected void onLazyLoad() {
         super.onLazyLoad();
+        if(!checkNetConnected()) return;
         loadData();
     }
 
@@ -122,6 +135,7 @@ public class WelfareFragment extends BaseFragment implements OnRefreshListener, 
 
     @Override
     protected void onErrorRefresh() {
+        if(!checkNetConnected())return;
         super.onErrorRefresh();
         loadData();
     }
@@ -133,12 +147,20 @@ public class WelfareFragment extends BaseFragment implements OnRefreshListener, 
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        if(!checkNetConnected()){
+            mRefreshLayout.finishRefresh();
+            return;
+        }
         pageIndex=1;
         loadData();
     }
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
+        if(!checkNetConnected()){
+            mRefreshLayout.finishLoadmore();
+            return;
+        }
         ++pageIndex;
         loadData();
     }

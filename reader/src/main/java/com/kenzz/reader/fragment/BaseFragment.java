@@ -2,8 +2,10 @@ package com.kenzz.reader.fragment;
 
 
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +16,30 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.kenzz.reader.BuildConfig;
+import com.kenzz.reader.MyApplication;
 import com.kenzz.reader.R;
+import com.kenzz.reader.utils.ACache;
+import com.kenzz.reader.utils.NetWorkUtil;
+import com.kenzz.reader.utils.ToastUtil;
+
+import java.io.File;
+import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements NetWorkUtil.onNetWorkChangeListener{
 
     protected Unbinder butterKnife;
     private RelativeLayout rootView;
@@ -37,6 +50,8 @@ public abstract class BaseFragment extends Fragment {
     @BindView(R.id.ll_fragment_content_loading)
     LinearLayout loadingLayout;
     private ImageView loadingImageVew;
+    @BindView(R.id.tv_fragment_network_error)
+    TextView netWorkError;
     public BaseFragment() {
         // Required empty public constructor
     }
@@ -65,7 +80,7 @@ public abstract class BaseFragment extends Fragment {
 
     @CallSuper
     protected  void onErrorRefresh(){
-        showLoadingPage();
+         showLoadingPage();
     }
 
     public void showErrorPage(){
@@ -135,4 +150,46 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract int getContentId();
 
+    @Override
+    public void onConnected() {
+        netWorkError.animate()
+                .alpha(1)
+                .setDuration(600)
+                .withEndAction(()->
+                    netWorkError.setVisibility(View.GONE))
+                .start();
+    }
+
+    @Override
+    public void onDisConnected() {
+        netWorkError.setText("网络不可用");
+        netWorkError.setVisibility(View.VISIBLE);
+        netWorkError.setAlpha(0);
+        netWorkError.animate()
+                    .alpha(1)
+                    .setDuration(600)
+                    .start();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        NetWorkUtil.unregistNetWorkListener(this);
+    }
+
+    public final boolean checkNetConnected(){
+        return NetWorkUtil.isNetworkAvailable(MyApplication.getInstance());
+    }
+
+    private ACache getCache(){
+       return ACache.get(new File(MyApplication.getInstance()
+               .getExternalCacheDir(),"readerCache"));
+    }
+
+    public <T> T getDataFromCache(String key){
+        return (T) getCache().getAsObject(key);
+    }
+    public <T> T putDataToCache(String key, Serializable data,int saveTime){
+        getCache().put(key,data,saveTime);
+        return (T) data;
+    }
 }

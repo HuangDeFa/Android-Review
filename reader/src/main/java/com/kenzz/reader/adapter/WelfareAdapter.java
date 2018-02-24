@@ -48,12 +48,9 @@ public class WelfareAdapter extends BaseRecyclerViewAdapter<GankEntity.ResultsBe
     @Override
     public void onBindViewHolder(GankDailyAdapter.GankDailyVH holder, int position) {
         ImageView imageView = holder.getView(R.id.iv_item_gank_welfare);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener!=null){
-                    mListener.onClick(v,position);
-                }
+        imageView.setOnClickListener(v -> {
+            if(mListener!=null){
+                mListener.onClick(v,position);
             }
         });
         ImageLoader.LoadImage(imageView,dataList.get(position).url,R.mipmap.img_default_meizi);

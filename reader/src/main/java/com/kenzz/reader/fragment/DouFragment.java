@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.kenzz.reader.R;
 import com.kenzz.reader.activity.MovieDetailActivity;
 import com.kenzz.reader.activity.MovieTop250Activity;
@@ -61,17 +62,16 @@ public class DouFragment extends BaseFragment implements OnLoadmoreListener {
        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
        mRecyclerView.setAdapter(mAdapter);
        if(mMovieViewModels.size()==0){
+           if(checkNetConnected())
            showLoadingPage();
+           else showErrorPage();
        }
-       mAdapter.setListener(new MovieAdapter.ItemTouchListener() {
-           @Override
-           public void onItemClick(View view, int position) {
-              if(position==0){
-                  MovieTop250Activity.startActivity(getActivity());
-              }else {
-                  MovieDetailActivity.startActivity(getActivity(),mMovieViewModels.get(position-1),view);
-              }
-           }
+       mAdapter.setListener((view, position) -> {
+          if(position==0){
+              MovieTop250Activity.startActivity(getActivity());
+          }else {
+              MovieDetailActivity.startActivity(getActivity(),mMovieViewModels.get(position-1),view);
+          }
        });
     }
 
@@ -82,6 +82,7 @@ public class DouFragment extends BaseFragment implements OnLoadmoreListener {
     }
 
     private void loadData() {
+        if(!checkNetConnected()) return;
         ApiManager.getInstance().getService(DouService.class)
                 .getMovieInThread(offset,20)
                 .subscribeOn(Schedulers.io())
@@ -115,12 +116,17 @@ public class DouFragment extends BaseFragment implements OnLoadmoreListener {
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
+         if(!checkNetConnected()){
+             mRefreshLayout.setLoadmoreFinished(true);
+             return;
+         }
          offset=offset+mMovieViewModels.size();
          loadData();
     }
 
     @Override
     protected void onErrorRefresh() {
+        if(!checkNetConnected())return;
         super.onErrorRefresh();
         loadData();
     }

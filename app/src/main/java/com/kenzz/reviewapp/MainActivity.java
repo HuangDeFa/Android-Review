@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import com.kenzz.reviewapp.activity.BaseActivity;
 import com.kenzz.reviewapp.activity.BroadCastReceiverActivity;
-import com.kenzz.reviewapp.activity.CameraActivity;
 import com.kenzz.reviewapp.activity.DesignActivity;
 import com.kenzz.reviewapp.activity.DrawableActivity;
 import com.kenzz.reviewapp.activity.GlideActivity;
 import com.kenzz.reviewapp.activity.QQContactListActivity;
+import com.kenzz.reviewapp.activity.RecyclerViewActivity;
 import com.kenzz.reviewapp.activity.RemoteViewsActivity;
 import com.kenzz.reviewapp.activity.ServiceActivity;
 import com.kenzz.reviewapp.activity.SkinActivity;
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
         mList.add("换肤Demo");
         mList.add("Glide ActivityDemo");
         mList.add("SpannableString Demo");
-        mList.add("Camera Demo");
+        mList.add("RecyclerView Demo");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -145,7 +145,7 @@ public class MainActivity extends BaseActivity {
                                 startActivity(new Intent(MainActivity.this,SpannableActivity.class));
                                 break;
                             case 11:
-                                startActivity(new Intent(MainActivity.this,CameraActivity.class));
+                                startActivity(new Intent(MainActivity.this, RecyclerViewActivity.class));
                                 break;
                                 default:
                                     break;

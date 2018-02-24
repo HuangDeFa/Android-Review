@@ -2,6 +2,7 @@ package com.kenzz.reader.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class GankEntity {
     public boolean error;
     public List<ResultsBean> results;
 
-    public static class ResultsBean {
+    public static class ResultsBean implements Serializable{
         @SerializedName("_id")
         public String _id;
         @SerializedName("createdAt")

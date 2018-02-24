@@ -48,12 +48,9 @@ public class OneContentAdapter extends BaseRecyclerViewAdapter<OneBookViewModel,
         ImageLoader.LoadImage(imageView,data.url,R.mipmap.img_default_book);
         titleView.setText(data.title);
         rateView.setText("评分："+data.rate);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mListener!=null){
-                    mListener.onItemClick(v,position);
-                }
+        imageView.setOnClickListener(v -> {
+            if(mListener!=null){
+                mListener.onItemClick(v,position);
             }
         });
     }

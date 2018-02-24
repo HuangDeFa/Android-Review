@@ -126,37 +126,34 @@ public class OneBookActivity extends BaseActivity {
         ImageLoader.LoadImageAsBackground(backgroundView,mViewModel.imageUrl,R.drawable.blue_bg);
 
         //设置ScrollView滚动监听 TODO：计算Toolbar的背景颜色,改变透明度即可
-        mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                Log.d(TAG,"onScrollY--> "+scrollY);
-                if(!initToolbarBackground){
-                    //注意一定要生成新一份的drawable 因为直接引用修改会导致所有使用该drawable的地方都受影响
-                    Drawable drawable;
-                    if(backgroundView.getDrawable() instanceof BitmapDrawable){
-                      drawable=new BitmapDrawable(getResources(),((BitmapDrawable)backgroundView.getDrawable()).getBitmap());
-                    }else {
-                        drawable = backgroundView.getDrawable();
-                        Bitmap bitmap=Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                        Canvas canvas=new Canvas(bitmap);
-                        drawable.draw(canvas);
-                        drawable=new BitmapDrawable(getResources(),bitmap);
-                    }
-                    titleBarLayout.setBackground(drawable /*backgroundView.getDrawable()*/);
-                    initToolbarBackground=true;
-                }
-                int total=backgroundView.getHeight()-titleBarHeight-statusBarHeight;
-                int alpha;
-                if(scrollY>=total){
-                    alpha=255;
-                }else if(scrollY==0){
-                    alpha=0;
+        mNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            Log.d(TAG,"onScrollY--> "+scrollY);
+            if(!initToolbarBackground){
+                //注意一定要生成新一份的drawable 因为直接引用修改会导致所有使用该drawable的地方都受影响
+                Drawable drawable;
+                if(backgroundView.getDrawable() instanceof BitmapDrawable){
+                  drawable=new BitmapDrawable(getResources(),((BitmapDrawable)backgroundView.getDrawable()).getBitmap());
                 }else {
-                    alpha = (int) ((scrollY*1.0f/total)*255);
+                    drawable = backgroundView.getDrawable();
+                    Bitmap bitmap=Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                            drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas canvas=new Canvas(bitmap);
+                    drawable.draw(canvas);
+                    drawable=new BitmapDrawable(getResources(),bitmap);
                 }
-               titleBarLayout.getBackground().setAlpha(alpha);
+                titleBarLayout.setBackground(drawable /*backgroundView.getDrawable()*/);
+                initToolbarBackground=true;
             }
+            int total=backgroundView.getHeight()-titleBarHeight-statusBarHeight;
+            int alpha;
+            if(scrollY>=total){
+                alpha=255;
+            }else if(scrollY==0){
+                alpha=0;
+            }else {
+                alpha = (int) ((scrollY*1.0f/total)*255);
+            }
+           titleBarLayout.getBackground().setAlpha(alpha);
         });
     }
 

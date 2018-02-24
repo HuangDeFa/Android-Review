@@ -118,53 +118,44 @@ public class WelfareActivity extends BaseActivity implements ViewPager.OnPageCha
         if (result == null) {
             result = new PhotoView(this);
             result.setBackgroundColor(Color.BLACK);
-            result.setOnPhotoTapListener(new OnPhotoTapListener() {
-                @Override
-                public void onPhotoTap(ImageView view, float x, float y) {
-                    if (mTextView.getAlpha() == 0.f) {
-                        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mTextView.getLayoutParams();
-                        final int originalHeight = (int) mTextView.getTag();
-                        ViewGroup.LayoutParams lp2 = headLayout.getLayoutParams();
-                        final int originalHeight2= (int) headLayout.getTag();
-                        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f)
-                                .setDuration(350);
-                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator animation) {
-                                float value = (float) animation.getAnimatedValue();
-                                mTextView.setAlpha(value);
-                                lp.height = (int) (originalHeight * value);
-                                mTextView.setLayoutParams(lp);
-                                headLayout.setAlpha(value);
-                                lp2.height= (int) (originalHeight2*value);
-                            }
-                        });
-                        animator.start();
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    } else {
-                        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mTextView.getLayoutParams();
-                        final int originalHeight = lp.height;
-                        mTextView.setTag(originalHeight);
-                        ViewGroup.LayoutParams lp2 = headLayout.getLayoutParams();
-                        final int originalHeight2= headLayout.getMeasuredHeight();
-                        headLayout.setTag(originalHeight2);
+            result.setOnPhotoTapListener((view, x, y) -> {
+                if (mTextView.getAlpha() == 0.f) {
+                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mTextView.getLayoutParams();
+                    final int originalHeight = (int) mTextView.getTag();
+                    ViewGroup.LayoutParams lp2 = headLayout.getLayoutParams();
+                    final int originalHeight2= (int) headLayout.getTag();
+                    ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f)
+                            .setDuration(350);
+                    animator.addUpdateListener(animation -> {
+                        float value = (float) animation.getAnimatedValue();
+                        mTextView.setAlpha(value);
+                        lp.height = (int) (originalHeight * value);
+                        mTextView.setLayoutParams(lp);
+                        headLayout.setAlpha(value);
+                        lp2.height= (int) (originalHeight2*value);
+                    });
+                    animator.start();
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                } else {
+                    RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mTextView.getLayoutParams();
+                    final int originalHeight = lp.height;
+                    mTextView.setTag(originalHeight);
+                    ViewGroup.LayoutParams lp2 = headLayout.getLayoutParams();
+                    final int originalHeight2= headLayout.getMeasuredHeight();
+                    headLayout.setTag(originalHeight2);
 
-                        ValueAnimator animator = ValueAnimator.ofFloat(1f, 0)
-                                .setDuration(350);
-                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                            @Override
-                            public void onAnimationUpdate(ValueAnimator animation) {
-                                float value = (float) animation.getAnimatedValue();
-                                mTextView.setAlpha(value);
-                                lp.height = (int) (originalHeight * value);
-                                mTextView.setLayoutParams(lp);
-                                headLayout.setAlpha(value);
-                                lp2.height= (int) (originalHeight2*value);
-                            }
-                        });
-                        animator.start();
-                        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    }
+                    ValueAnimator animator = ValueAnimator.ofFloat(1f, 0)
+                            .setDuration(350);
+                    animator.addUpdateListener(animation -> {
+                        float value = (float) animation.getAnimatedValue();
+                        mTextView.setAlpha(value);
+                        lp.height = (int) (originalHeight * value);
+                        mTextView.setLayoutParams(lp);
+                        headLayout.setAlpha(value);
+                        lp2.height= (int) (originalHeight2*value);
+                    });
+                    animator.start();
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
             });
              imageViewCache.add(result);

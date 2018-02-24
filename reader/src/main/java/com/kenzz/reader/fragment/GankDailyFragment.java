@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.kenzz.reader.Constant;
 import com.kenzz.reader.MyApplication;
 import com.kenzz.reader.R;
@@ -23,6 +24,7 @@ import com.kenzz.reader.bean.GankDailyModel;
 import com.kenzz.reader.bean.GankEntity;
 import com.kenzz.reader.http.ApiManager;
 import com.kenzz.reader.http.GankService;
+import com.kenzz.reader.utils.ACache;
 import com.kenzz.reader.utils.SPUtil;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -96,6 +99,7 @@ public class GankDailyFragment extends BaseFragment {
     }
 
     private void initBannerDatas() {
+        if(!checkNetConnected())return;
         ApiManager.getInstance()
                 .getService(GankService.class)
                 .getRandomGank("福利", 5)
@@ -148,10 +152,25 @@ public class GankDailyFragment extends BaseFragment {
              //TODO:点击更多 跳转不同的页面
             }
         });
+        if(modelList.size()==0 && !checkNetConnected()){
+            showErrorPage();
+        }
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState==RecyclerView.SCROLL_STATE_IDLE){
+                    Glide.with(getContext()).resumeRequests();
+                }else {
+                    Glide.with(getContext()).pauseRequests();
+                }
+            }
+        });
     }
 
     @Override
     protected void onLazyLoad() {
+        if(checkNetConnected())
         loadData(date);
     }
 
@@ -159,6 +178,7 @@ public class GankDailyFragment extends BaseFragment {
     protected void onVisible() {
         initDate();
     }
+
 
     private void loadData(String[] date) {
         ApiManager.getInstance().getService(GankService.class).
@@ -224,6 +244,7 @@ public class GankDailyFragment extends BaseFragment {
                             }
                             String updateDaily = String.format("%s_%s_%s", date[0], date[1], date[2]);
                             SPUtil.putString(MyApplication.getInstance(), updateDaily, Constant.LAST_DAILY_DATE);
+
                         }
                     }
 
@@ -231,7 +252,7 @@ public class GankDailyFragment extends BaseFragment {
                     public void onError(Throwable e) {
                         try {
                             e.printStackTrace();
-                            if (mRecyclerView != null) {
+                            if (mRecyclerView != null && modelList.size()==0) {
                                 showErrorPage();
                             }
                         }catch (Exception ex){
@@ -250,6 +271,7 @@ public class GankDailyFragment extends BaseFragment {
 
     @Override
     protected void onErrorRefresh() {
+        if(!checkNetConnected())return;
         super.onErrorRefresh();
         loadData(date);
     }

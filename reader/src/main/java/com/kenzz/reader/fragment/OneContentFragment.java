@@ -83,14 +83,13 @@ public class OneContentFragment extends BaseFragment implements OnRefreshListene
       mRefreshLayout.setOnRefreshListener(this);
       //第一次进入
       if(mModelList.size()==0){
+          if(checkNetConnected())
           mRefreshLayout.autoRefresh();
+          else showErrorPage();
       }
-      mAdapter.setListener(new OneContentAdapter.ItemTouchListener() {
-          @Override
-          public void onItemClick(View v, int position) {
-              OneBookEntity.Books data = mBookEntities.get(position);
-              OneBookActivity.startActivity(getActivity(),data,v);
-          }
+      mAdapter.setListener((v, position) -> {
+          OneBookEntity.Books data = mBookEntities.get(position);
+          OneBookActivity.startActivity(getActivity(),data,v);
       });
     }
 
@@ -126,18 +125,27 @@ public class OneContentFragment extends BaseFragment implements OnRefreshListene
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+      if(!checkNetConnected()){
+          mRefreshLayout.finishRefresh();
+          return;
+      }
       pageOffset=0;
       loadData();
     }
 
     @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
+        if(!checkNetConnected()){
+            mRefreshLayout.finishLoadmore();
+            return;
+        }
      pageOffset=pageOffset+mModelList.size();
      loadData();
     }
 
     @Override
     protected void onErrorRefresh() {
+        if(!checkNetConnected())return;
         super.onErrorRefresh();
         loadData();
     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Process;
 import android.text.TextUtils;
 
+import com.kenzz.reader.utils.ACache;
 import com.kenzz.reader.utils.NetWorkUtil;
 import com.kenzz.reader.utils.SPUtil;
 

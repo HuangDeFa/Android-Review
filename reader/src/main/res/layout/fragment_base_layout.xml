@@ -2,7 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent">
+<TextView
+    android:visibility="gone"
+    android:id="@+id/tv_fragment_network_error"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:background="@drawable/blue_bg"
+    android:textSize="17sp"
+    android:text="网络不可用"
+    android:gravity="center"
+    android:textColor="@android:color/white"
+    />
 <FrameLayout
+    android:layout_below="@id/tv_fragment_network_error"
     android:id="@+id/fragment_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">

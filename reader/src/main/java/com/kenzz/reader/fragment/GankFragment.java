@@ -48,7 +48,7 @@ public class GankFragment extends BaseFragment {
     @Override
     public void initView() {
         mTabLayout.setupWithViewPager(mSuperViewPager);
-        mSuperViewPager.setOffscreenPageLimit(3);
+        mSuperViewPager.setOffscreenPageLimit(2);
         List<Fragment> fragments=new ArrayList<>();
         fragments.add(new GankDailyFragment());
         fragments.add(new WelfareFragment());
