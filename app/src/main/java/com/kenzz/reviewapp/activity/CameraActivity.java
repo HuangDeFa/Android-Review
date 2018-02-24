@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.kenzz.reviewapp.R;
 
@@ -24,6 +26,8 @@ public class CameraActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置Activity的window为安全窗口 无法截屏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_camera);
     }
 

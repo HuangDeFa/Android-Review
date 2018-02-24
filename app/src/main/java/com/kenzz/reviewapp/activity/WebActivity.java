@@ -29,11 +29,13 @@ public class WebActivity extends BaseActivity {
         mFrameLayout.addView(mWebView,new FrameLayout.LayoutParams(-1,-1));
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
         //设置可以无限放大
         webSettings.setUseWideViewPort(true);
         webSettings.setDisplayZoomControls(false);
         webSettings.setAllowFileAccess(true);
         mWebView.addJavascriptInterface(new WebJsBridgeObject(this),"Control");
+
         mWebView.setWebChromeClient(new WebChromeClient(){
 
             //加载进度条

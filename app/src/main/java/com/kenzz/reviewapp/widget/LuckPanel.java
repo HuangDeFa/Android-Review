@@ -4,21 +4,26 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 /**
  * Created by ken.huang on 2/23/2018.
  * 幸运转盘
+ * TODO：中奖的计算 根据一定的规则算出概率，控制偏移量 mStartAngle 即可；
  */
 
-public class LuckPanel extends SurfaceView implements SurfaceHolder.Callback,Runnable{
+public class LuckPanel extends SurfaceView implements SurfaceHolder.Callback,Runnable {
 
     SurfaceHolder mSurfaceHolder;
     Thread mThread;
-    boolean isRunning=true;
+    boolean isRunning=false;
     Canvas mCanvas;
 
     //圆盘直径，中心
@@ -34,6 +39,13 @@ public class LuckPanel extends SurfaceView implements SurfaceHolder.Callback,Run
     String[] pieces={"iPhone","MacBookPro","软妹子","山寨机","张公子","王尼玛"};
     //转动的角度
     int  mStartAngle;
+
+    Rect touchRange;
+    //转动速度
+    int mSpeed=2;
+
+    int mTotalTime=5;
+    long mStartTime;
 
     public LuckPanel(Context context) {
         this(context,null);
@@ -57,7 +69,10 @@ public class LuckPanel extends SurfaceView implements SurfaceHolder.Callback,Run
 
         mTextPaint=new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setColor(Color.GREEN);
-        mTextPaint.setTextSize(20);
+        mTextPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,10,
+                getContext().getResources().getDisplayMetrics()));
+        mTextPaint.setStrokeWidth(10);
+        mPath=new Path();
     }
 
     @Override
@@ -71,6 +86,8 @@ public class LuckPanel extends SurfaceView implements SurfaceHolder.Callback,Run
         setMeasuredDimension(size,size);
         if(mRange==null)
         mRange=new RectF(getPaddingLeft(),getPaddingLeft(),mRadius-getPaddingLeft(),mRadius-getPaddingLeft());
+        if(touchRange==null)
+        touchRange=new Rect(mCenter-20,mCenter-20,mCenter+20,mCenter+20);
     }
 
     @Override
@@ -93,7 +110,20 @@ public class LuckPanel extends SurfaceView implements SurfaceHolder.Callback,Run
 
     @Override
     public void run() {
+        draw();
       for(;;) {
+          long timeSpan = System.currentTimeMillis() - mStartTime;
+          if(timeSpan>=mTotalTime*1000){
+              isRunning=false;
+          }
+          else if(timeSpan>=3500){
+              mSpeed=3;
+          }else if(timeSpan>=2000){
+              mSpeed=5;
+          }else {
+              mSpeed=7;
+          }
+
           if(isRunning)
           draw();
           else {
@@ -113,7 +143,7 @@ public class LuckPanel extends SurfaceView implements SurfaceHolder.Callback,Run
                 drawPanel();
                 if(mStartAngle>=360)
                     mStartAngle=0;
-                mStartAngle+=2;
+                mStartAngle+=mSpeed;
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -123,20 +153,47 @@ public class LuckPanel extends SurfaceView implements SurfaceHolder.Callback,Run
         }
     }
 
+    Path mPath;
+
     private void drawPanel() {
        int sweepAngle=360/pieces.length;
         for (int i=0;i<pieces.length;i++) {
+            if(i%2==0){
+                mPanelPaint.setColor(Color.RED);
+            }else {
+                mPanelPaint.setColor(Color.YELLOW);
+            }
             mCanvas.drawArc(mRange,mStartAngle+i*sweepAngle,sweepAngle,true,mPanelPaint);
             float len = mTextPaint.measureText(pieces[i]);
             Paint.FontMetricsInt fontMetricsInt = mTextPaint.getFontMetricsInt();
-            int baseY=(fontMetricsInt.bottom-fontMetricsInt.top)/2-fontMetricsInt.bottom+mRadius/2;
+            int baseY=(fontMetricsInt.bottom-fontMetricsInt.top)/2-fontMetricsInt.bottom+mRadius/5;
             mCanvas.save();
-            mCanvas.rotate(90*i+sweepAngle/2,mCenter,mCenter);
+            mCanvas.rotate(90+mStartAngle+sweepAngle*i+sweepAngle/2,mCenter,mCenter);
             mCanvas.drawText(pieces[i],mCenter-len/2,baseY,mTextPaint);
             mCanvas.restore();
         }
 
+        mPanelPaint.setColor(Color.BLUE);
+        //mCanvas.drawLine(mCenter,mCenter,mCenter,mRadius/5,mPanelPaint);
+        mPath.moveTo(mCenter-(float)Math.cos(Math.PI/6)*40,mCenter-(float)Math.sin(Math.PI/6)*40);
+        mPath.lineTo(mCenter,mCenter-mRadius/4);
+        mPath.lineTo(mCenter+(float)Math.cos(Math.PI/6)*40,mCenter-(float)Math.sin(Math.PI/6)*40);
+        mCanvas.drawPath(mPath,mPanelPaint);
 
+        mPanelPaint.setColor(Color.RED);
+        mCanvas.drawCircle(mCenter,mCenter,40,mPanelPaint);
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction()==MotionEvent.ACTION_UP){
+                int x= (int) event.getX();
+                int y= (int) event.getY();
+                if(touchRange.contains(x,y) &&!isRunning){
+                    isRunning=true;
+                    mStartTime=System.currentTimeMillis();
+                }
+        }
+        return true;
     }
 }
