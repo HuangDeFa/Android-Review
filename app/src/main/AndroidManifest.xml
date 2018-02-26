@@ -84,6 +84,8 @@
         </activity>
         <activity android:name=".activity.CameraActivity">
         </activity>
+        <activity android:name=".activity.VideoActivity">
+        </activity>
     </application>
 
 </manifest>

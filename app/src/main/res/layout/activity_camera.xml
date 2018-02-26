@@ -7,7 +7,12 @@
     android:layout_height="match_parent"
     tools:context="com.kenzz.reviewapp.activity.CameraActivity">
     <com.kenzz.reviewapp.widget.LuckPanel
+        android:id="@+id/luck_panel"
         android:layout_width="150dp"
         android:layout_height="150dp"/>
-
+     <SurfaceView
+         android:layout_below="@id/luck_panel"
+         android:id="@+id/surface_view"
+         android:layout_width="match_parent"
+         android:layout_height="300dp"/>
 </RelativeLayout>

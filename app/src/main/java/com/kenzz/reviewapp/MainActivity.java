@@ -28,6 +28,7 @@ import com.kenzz.reviewapp.activity.ServiceActivity;
 import com.kenzz.reviewapp.activity.SkinActivity;
 import com.kenzz.reviewapp.activity.SocketActivity;
 import com.kenzz.reviewapp.activity.SpannableActivity;
+import com.kenzz.reviewapp.activity.VideoActivity;
 import com.kenzz.reviewapp.activity.ViewLearningActivity;
 import com.kenzz.reviewapp.adapter.ComBaseAdapter;
 import com.kenzz.reviewapp.adapter.ComBaseVH;
@@ -90,6 +91,7 @@ public class MainActivity extends BaseActivity {
         mList.add("SpannableString Demo");
         mList.add("RecyclerView Demo");
         mList.add("Camera Demo");
+        mList.add("Video/Audio Demo");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -151,6 +153,9 @@ public class MainActivity extends BaseActivity {
                                 break;
                             case 12:
                                 startActivity(new Intent(MainActivity.this, CameraActivity.class));
+                                break;
+                            case 13:
+                                startActivity(new Intent(MainActivity.this, VideoActivity.class));
                                 break;
                                 default:
                                     break;
