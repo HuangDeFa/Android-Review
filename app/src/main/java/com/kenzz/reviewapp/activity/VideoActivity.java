@@ -10,6 +10,8 @@ import android.support.annotation.RequiresApi;
 import android.view.SurfaceView;
 
 import com.kenzz.reviewapp.R;
+import com.kenzz.reviewapp.widget.KVideoControl;
+import com.kenzz.reviewapp.widget.KVideoView;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -20,11 +22,16 @@ import java.nio.ByteBuffer;
 public class VideoActivity extends BaseActivity {
 
     private SurfaceView mSurfaceView;
+    private KVideoView mKVideoView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         mSurfaceView=findViewById(R.id.video);
+        mKVideoView=findViewById(R.id.k_video_view);
+        mKVideoView.setControl(new KVideoControl(this));
+        mKVideoView.setResourceUrl("https://us.sinaimg.cn/003jdkYLjx07cBHyYtuw010f0100r7va0k01.mp4");
+        mKVideoView.start();
     }
 
     /**

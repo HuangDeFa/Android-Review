@@ -8,11 +8,27 @@
     tools:context="com.kenzz.reviewapp.activity.CameraActivity">
     <com.kenzz.reviewapp.widget.LuckPanel
         android:id="@+id/luck_panel"
+        android:visibility="gone"
         android:layout_width="150dp"
         android:layout_height="150dp"/>
      <SurfaceView
          android:layout_below="@id/luck_panel"
          android:id="@+id/surface_view"
          android:layout_width="match_parent"
-         android:layout_height="300dp"/>
+         android:layout_height="400dp"/>
+    <com.kenzz.reviewapp.widget.TouchPanelView
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/luck_panel"
+        />
+    <Button
+        android:id="@+id/btn_take_photo"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/surface_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="拍照"
+        />
 </RelativeLayout>

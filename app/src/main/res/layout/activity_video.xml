@@ -7,8 +7,15 @@
     android:layout_height="match_parent"
     tools:context="com.kenzz.reviewapp.activity.VideoActivity">
 <SurfaceView
+    android:visibility="gone"
     android:id="@+id/video"
     android:layout_width="match_parent"
     android:layout_height="300dp"
     />
+    <com.kenzz.reviewapp.widget.KVideoView
+        android:id="@+id/k_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+    </com.kenzz.reviewapp.widget.KVideoView>
 </RelativeLayout>

@@ -9,11 +9,14 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Surface;
 import android.view.TextureView;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import java.io.IOException;
+
 
 /**
  * Created by ken.huang on 2/26/2018.
@@ -22,6 +25,7 @@ import java.io.IOException;
 
 public class KVideoView extends FrameLayout implements TextureView.SurfaceTextureListener {
 
+    final static String TAG=KVideoView.class.getSimpleName();
     //播放器
     private MediaPlayer mPlayer;
     private FrameLayout mContainer;
@@ -29,6 +33,7 @@ public class KVideoView extends FrameLayout implements TextureView.SurfaceTextur
     private Context mContext;
     //视频URL
     private String mUrl;
+    private IKVideoControl mVideoControl;
 
     public KVideoView(@NonNull Context context) {
         this(context,null);
@@ -72,18 +77,26 @@ public class KVideoView extends FrameLayout implements TextureView.SurfaceTextur
     private MediaPlayer.OnBufferingUpdateListener mUpdateListener=new MediaPlayer.OnBufferingUpdateListener() {
         @Override
         public void onBufferingUpdate(MediaPlayer mp, int percent) {
-
+            Log.d(TAG,"缓冲-> "+percent);
+            if(mVideoControl!=null){
+                mVideoControl.onLoadVideo(percent);
+            }
         }
     };
     private MediaPlayer.OnCompletionListener mCompletionListener=new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
-
+           if(mVideoControl!=null){
+               mVideoControl.onComplete();
+           }
         }
     };
     private MediaPlayer.OnErrorListener mOnErrorListener=new MediaPlayer.OnErrorListener() {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
+            if(mVideoControl!=null){
+                mVideoControl.onError(new Exception("Player error: "+what));
+            }
             return false;
         }
     };
@@ -123,7 +136,6 @@ public class KVideoView extends FrameLayout implements TextureView.SurfaceTextur
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mPlayer.prepareAsync();
     }
 
     @Override
@@ -148,8 +160,106 @@ public class KVideoView extends FrameLayout implements TextureView.SurfaceTextur
     }
 
     public void start(){
+        if(mVideoControl==null)
+            throw new RuntimeException("before start the videoControl must be set!");
         initPlayer();
         initTextureView();
         addTextureView();
+    }
+
+    public void pause(){
+        if(mPlayer!=null && mPlayer.isPlaying()){
+            mPlayer.pause();
+        }
+    }
+
+    public void resume(){
+        if(mPlayer!=null && !mPlayer.isPlaying()){
+            mPlayer.start();
+        }
+    }
+
+    public int getDuration(){
+        if(mPlayer!=null){
+            try{
+            return mPlayer.getDuration();
+            }catch (Exception e){
+                throw e;
+            }
+        }
+        return 0;
+    }
+
+    public int getCurrentPosition(){
+        if(mPlayer!=null){
+            try{
+                return mPlayer.getCurrentPosition();
+            }catch (Exception e){
+                throw e;
+            }
+        }
+        return 0;
+    }
+
+    public boolean setVolume(float volume){
+        try {
+        if(mPlayer!=null){
+            mPlayer.setVolume(volume,volume);
+            return true;
+         }
+        }catch (Exception e){
+          e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void seekTo(int position){
+        if(mPlayer!=null){
+            mPlayer.seekTo(position);
+        }
+    }
+
+    public void reset(){
+        if(mPlayer!=null){
+            mPlayer.reset();
+        }
+    }
+
+    /**
+     * 当播放器处于 completed状态调用start则可以重新播放
+     */
+    public void restart(){
+        if(mPlayer!=null){
+            mPlayer.start();
+        }
+    }
+
+    public void setControl(IKVideoControl control){
+        this.mVideoControl=control;
+        LayoutParams lp=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+        this.mContainer.addView((View) mVideoControl,lp);
+        this.mVideoControl.setVideoView(this);
+    }
+
+    public interface IKVideoControl{
+        void start();
+        void pause();
+        void resume();
+        void reset();
+        void restart();
+
+        boolean setVolume(float volume);
+        void seekTo(int position);
+        int getDuration();
+        int getCurrentPosition();
+
+        /**
+         * error 状态下必须reset后才能重用，并且还要重新初始化(prepare)才可以播放使用
+         * @param e
+         */
+        void onError(Exception e);
+        void onComplete();
+        void onLoadVideo(float percent);
+        void setVideoView(KVideoView videoView);
     }
 }
