@@ -17,7 +17,9 @@
          android:layout_width="match_parent"
          android:layout_height="400dp"/>
     <com.kenzz.reviewapp.widget.TouchPanelView
-        android:visibility="gone"
+        android:visibility="visible"
+        android:id="@+id/touch_panel_video_record"
+        android:layout_below="@id/surface_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/luck_panel"

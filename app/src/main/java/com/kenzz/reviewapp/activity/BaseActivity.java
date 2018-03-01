@@ -1,5 +1,6 @@
 package com.kenzz.reviewapp.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -56,5 +57,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         return resolveInfo!=null;
     }
 
+    /**
+     * 使组件不可用，配合activity-alias 可以进行应用图标的更改
+     * @param componentName
+     */
+    protected void disableComponent(ComponentName componentName){
+        getPackageManager().setComponentEnabledSetting(componentName,
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+    }
+
+    /**
+     * 使组件可用
+     * @param componentName
+     */
+    protected void enableComponent(ComponentName componentName){
+        getPackageManager().setComponentEnabledSetting(componentName,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
+    }
 
 }

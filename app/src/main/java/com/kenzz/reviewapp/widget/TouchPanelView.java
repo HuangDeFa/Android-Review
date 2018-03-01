@@ -42,7 +42,13 @@ public class TouchPanelView extends View {
 
     private int mStrokeWidth =8;
 
+    private boolean isComplete=false;
 
+    public void setTouchPanelListener(TouchPanelListener touchPanelListener) {
+        mTouchPanelListener = touchPanelListener;
+    }
+
+    private TouchPanelListener mTouchPanelListener;
 
     public TouchPanelView(Context context) {
         this(context,null);
@@ -110,6 +116,10 @@ public class TouchPanelView extends View {
             float degree = dTime*1f/RECORDERTIMEOUT *360;
             Log.d(TAG,"degree: "+degree);
             canvas.drawArc(mRange,270,degree,false,mPaint);
+            if(!isComplete && degree>=360){
+                isComplete=true;
+                if(mTouchPanelListener!=null)mTouchPanelListener.onComplete();
+            }
         }
     }
 
@@ -123,10 +133,12 @@ public class TouchPanelView extends View {
             switch (msg.what){
                 case 100:
                 case 300:
+                    if(!isTouch && mTouchPanelListener!=null)mTouchPanelListener.onStart();
                     isTouch=true;
                     sendEmptyMessage(500);
                     break;
                 case 200:
+                    if(!isComplete && isTouch && mTouchPanelListener!=null)mTouchPanelListener.onComplete();
                     isTouch=false;
                     mHandler.removeMessages(100);
                     mHandler.removeMessages(200);
@@ -148,9 +160,11 @@ public class TouchPanelView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(!isEnabled()) return super.onTouchEvent(event);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 mStartTime=SystemClock.uptimeMillis();
+                isComplete=false;
                 mHandler.sendEmptyMessageDelayed(100, 200);
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -161,5 +175,10 @@ public class TouchPanelView extends View {
                 break;
         }
         return true;
+    }
+
+    public static interface TouchPanelListener{
+        void onStart();
+        void onComplete();
     }
 }

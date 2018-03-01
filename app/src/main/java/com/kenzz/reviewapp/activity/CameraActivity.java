@@ -20,6 +20,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import android.view.WindowManager;
 
 import com.kenzz.reviewapp.R;
 import com.kenzz.reviewapp.util.ToastUtil;
+import com.kenzz.reviewapp.widget.TouchPanelView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -80,6 +82,7 @@ public class CameraActivity extends BaseActivity {
     private int mState = STATE_PREVIEW;//{#see mCaptureCallback}The current state of camera state for taking pictures.
 
     private Size mPreviewSize;
+    private int mSenorOrientation;
     //从屏幕旋转转换为JPEG方向
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -88,6 +91,8 @@ public class CameraActivity extends BaseActivity {
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
 
+    private TouchPanelView mTouchPanelView;
+    private MediaRecorder mMediaRecorder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +106,10 @@ public class CameraActivity extends BaseActivity {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
-                    if (ActivityCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+                    boolean needPermission= ActivityCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED||
+                             ActivityCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED;
+                    if (needPermission) {
+                        requestPermissions(new String[]{Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO}, 100);
                     }else {
                         checkCamera();
                     }
@@ -128,6 +135,21 @@ public class CameraActivity extends BaseActivity {
                 lockFocus();
             }
         });
+        mTouchPanelView=findViewById(R.id.touch_panel_video_record);
+        mTouchPanelView.setTouchPanelListener(new TouchPanelView.TouchPanelListener() {
+            @Override
+            public void onStart() {
+                //开启视频拍摄
+                recoderVideo();
+            }
+
+            @Override
+            public void onComplete() {
+                //
+                stopRecorder();
+            }
+        });
+        //mTouchPanelView.setEnabled(false);
     }
 
     /**
@@ -268,8 +290,8 @@ public class CameraActivity extends BaseActivity {
                captureBuilder.addTarget(mImageReader.getSurface());
                captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                //设置旋转角度
-               // int rotation = getWindowManager().getDefaultDisplay().getRotation();
-               //captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,getOrientation(rotation));
+                int rotation = getWindowManager().getDefaultDisplay().getRotation();
+                captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,getOrientation(rotation));
 
                CameraCaptureSession.CaptureCallback captureCallback=new CameraCaptureSession.CaptureCallback() {
                    @Override
@@ -319,7 +341,7 @@ public class CameraActivity extends BaseActivity {
     }
 
     private Integer getOrientation(int rotation) {
-        return null;
+        return (ORIENTATIONS.get(rotation)+mSenorOrientation+270)%360;
     }
 
     //开启相机预览
@@ -327,6 +349,7 @@ public class CameraActivity extends BaseActivity {
     private void openCameraPreview() {
         if (mSurfaceHolder == null) throw new AssertionError();
         try {
+            closePreviewSession();
             mPreviewRequestBuilder=mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewRequestBuilder.addTarget(mSurfaceHolder.getSurface());
             mCameraDevice.createCaptureSession(Arrays.asList(mSurfaceHolder.getSurface(), mImageReader.getSurface()), new CameraCaptureSession.StateCallback() {
@@ -367,7 +390,7 @@ public class CameraActivity extends BaseActivity {
                 assert map != null;
                 Size[] preSize = map.getOutputSizes(SurfaceHolder.class);//预览尺寸
                 Size[] picSize = map.getOutputSizes(ImageFormat.JPEG); //成像尺寸
-
+                mSenorOrientation=cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION);
                 Integer integer = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
                 if (integer!=null && integer == CameraCharacteristics.LENS_FACING_FRONT)
                     continue;
@@ -381,7 +404,7 @@ public class CameraActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==100 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+        if(requestCode==100 && grantResults[0]==PackageManager.PERMISSION_GRANTED && grantResults[1]==PackageManager.PERMISSION_GRANTED){
             checkCamera();
         }
     }
@@ -411,6 +434,80 @@ public class CameraActivity extends BaseActivity {
         },mBackgroundHandler);
     }
 
+    @SuppressLint("NewApi")
+    private void recoderVideo(){
+        if(mCameraDevice==null)return;
+        try {
+            setUpRecorder();
+            final CaptureRequest.Builder builder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            builder.addTarget(mSurfaceHolder.getSurface());
+            builder.addTarget(mMediaRecorder.getSurface());
+            closePreviewSession();
+            mCameraDevice.createCaptureSession(Arrays.asList(mSurfaceHolder.getSurface(), mMediaRecorder.getSurface()), new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(@NonNull CameraCaptureSession session) {
+                    mCameraCaptureSession=session;
+                    try {
+                        builder.set(CaptureRequest.CONTROL_MODE,CaptureRequest.CONTROL_MODE_AUTO);
+                        mCameraCaptureSession.setRepeatingRequest(builder.build(), null,mBackgroundHandler);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mMediaRecorder.start();
+                            }
+                        });
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onConfigureFailed(@NonNull CameraCaptureSession session) {
+
+                }
+            },mBackgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private void closePreviewSession() {
+        try {
+            if (mCameraCaptureSession != null) {
+               // mCameraCaptureSession.stopRepeating();
+                mCameraCaptureSession.close();
+                mCameraCaptureSession = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setUpRecorder() throws IOException {
+        if(mMediaRecorder==null){
+            mMediaRecorder=new MediaRecorder();
+        }
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mMediaRecorder.setVideoEncodingBitRate(10000000);
+        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mMediaRecorder.setVideoFrameRate(30);
+        mMediaRecorder.setOutputFile(getExternalCacheDir().getAbsolutePath()+"/test.mp4");
+        mMediaRecorder.prepare();
+    }
+
+    private void stopRecorder(){
+        mMediaRecorder.stop();
+        mMediaRecorder.reset();
+        openCameraPreview();
+    }
+
     /**
      * 将图片文件添加到图库
      * @param file
@@ -428,6 +525,10 @@ public class CameraActivity extends BaseActivity {
         super.onDestroy();
         if(mCameraDevice!=null){
             mCameraDevice.close();
+        }
+        if(mMediaRecorder!=null){
+            mMediaRecorder.release();
+            mMediaRecorder=null;
         }
         stopBackgroundThread();
     }

@@ -1,11 +1,14 @@
 package com.kenzz.reviewapp.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaCodec;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.view.SurfaceView;
 
@@ -30,8 +33,22 @@ public class VideoActivity extends BaseActivity {
         mSurfaceView=findViewById(R.id.video);
         mKVideoView=findViewById(R.id.k_video_view);
         mKVideoView.setControl(new KVideoControl(this));
-        mKVideoView.setResourceUrl("https://us.sinaimg.cn/003jdkYLjx07cBHyYtuw010f0100r7va0k01.mp4");
-        mKVideoView.start();
+        mKVideoView.setResourceUrl("/sdcard/Download/test.mp4");
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+           if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_DENIED){
+               requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+           }else {
+            mKVideoView.start();
+           }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==100 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+            mKVideoView.start();
+        }
     }
 
     /**

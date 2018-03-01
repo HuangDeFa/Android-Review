@@ -12,6 +12,22 @@ import android.widget.RelativeLayout;
 
 public class KVideoControl extends RelativeLayout implements KVideoView.IKVideoControl {
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Bitmap getBackgroundImage() {
+        return mBackgroundImage;
+    }
+
+    public void setBackgroundImage(Bitmap backgroundImage) {
+        mBackgroundImage = backgroundImage;
+    }
+
     private String title;
     private Bitmap mBackgroundImage;
 
