@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.kenzz.reviewapp.permission.broadcastreceiver"/>
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <permission
         android:name="com.kenzz.reviewapp.permission.broadcastreceiver"
@@ -89,6 +89,8 @@
         <activity android:name=".activity.CameraActivity">
         </activity>
         <activity android:name=".activity.VideoActivity">
+        </activity>
+        <activity android:name=".activity.RxJavaActivity">
         </activity>
     </application>
 
