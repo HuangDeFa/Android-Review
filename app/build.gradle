@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -40,4 +44,7 @@ dependencies {
     //引入Glide
     compile 'com.github.bumptech.glide:glide:4.0.0'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    //引入RxJava
+    compile 'io.reactivex.rxjava2:rxjava:2.1.5'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }

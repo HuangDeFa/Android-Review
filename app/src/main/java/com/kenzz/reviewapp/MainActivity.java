@@ -24,6 +24,7 @@ import com.kenzz.reviewapp.activity.GlideActivity;
 import com.kenzz.reviewapp.activity.QQContactListActivity;
 import com.kenzz.reviewapp.activity.RecyclerViewActivity;
 import com.kenzz.reviewapp.activity.RemoteViewsActivity;
+import com.kenzz.reviewapp.activity.RxJavaActivity;
 import com.kenzz.reviewapp.activity.ServiceActivity;
 import com.kenzz.reviewapp.activity.SkinActivity;
 import com.kenzz.reviewapp.activity.SocketActivity;
@@ -92,6 +93,7 @@ public class MainActivity extends BaseActivity {
         mList.add("RecyclerView Demo");
         mList.add("Camera Demo");
         mList.add("Video/Audio Demo");
+        mList.add("RxJava 使用 Demo");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -157,6 +159,9 @@ public class MainActivity extends BaseActivity {
                             case 13:
                                 startActivity(new Intent(MainActivity.this, VideoActivity.class));
                                 break;
+                            case 14:
+                                startActivity(new Intent(MainActivity.this, RxJavaActivity.class));
+                                 break;
                                 default:
                                     break;
                         }

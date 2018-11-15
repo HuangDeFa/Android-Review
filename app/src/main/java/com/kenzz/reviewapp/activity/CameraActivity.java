@@ -341,7 +341,7 @@ public class CameraActivity extends BaseActivity {
     }
 
     private Integer getOrientation(int rotation) {
-        return (ORIENTATIONS.get(rotation)+mSenorOrientation+270)%360;
+        return (ORIENTATIONS.get(rotation)+mSenorOrientation+360)%360;
     }
 
     //开启相机预览
