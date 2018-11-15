@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.kenzz.reviewapp.permission.broadcastreceiver"/>
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <permission
         android:name="com.kenzz.reviewapp.permission.broadcastreceiver"
@@ -90,6 +90,16 @@
         </activity>
         <activity android:name=".activity.VideoActivity">
         </activity>
+
+        <service
+            android:name=".service.MyAccessibilityService"
+            android:label="我的辅助服务"
+            android:description="@string/MyAccessibilityService_description"
+            android:enabled="true"
+            android:exported="true">
+            <meta-data android:name="com.kenzz.reviewapp.service.MyAccessibilityService">
+            </meta-data>
+        </service>
     </application>
 
 </manifest>
